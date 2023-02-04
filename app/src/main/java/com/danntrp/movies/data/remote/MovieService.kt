@@ -12,7 +12,7 @@ interface MovieService {
     @GET("api/v2.2/films/top")
     suspend fun getPopularMovies(
         @Query("type") type: String = "TOP_100_POPULAR_FILMS",
-        @Query("page") page: Int = 1
+        @Query("page") page: Int
     ): Response<MoviesResponseDto>
 
     @GET("/api/v2.2/films/{id}")

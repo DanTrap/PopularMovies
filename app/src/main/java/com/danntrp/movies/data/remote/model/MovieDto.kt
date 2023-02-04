@@ -1,6 +1,6 @@
 package com.danntrp.movies.data.remote.model
 
-data class FilmDto(
+data class MovieDto(
     val filmId: Int,
     val nameRu: String?,
     val nameEn: String?,
