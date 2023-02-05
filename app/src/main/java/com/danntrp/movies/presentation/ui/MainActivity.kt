@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.danntrp.movies.R
 import com.danntrp.movies.databinding.ActivityMainBinding
+import com.danntrp.movies.presentation.ui.popular.PopularMovieFragment
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

@@ -9,4 +9,10 @@ interface MovieRepository {
     suspend fun getPopularMovies(page: Int): Resource<List<Movie>>
 
     suspend fun getMovieDescription(id: Int): Resource<MovieDescription>
+
+    suspend fun insert(movie: Movie)
+
+    suspend fun getFavoriteMovies(): List<Movie>
+
+    suspend fun deleteMovie(id: Int)
 }

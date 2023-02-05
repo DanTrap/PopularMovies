@@ -1,6 +1,9 @@
 package com.danntrp.movies.di
 
+import android.content.Context
+import androidx.room.Room
 import com.danntrp.movies.BuildConfig
+import com.danntrp.movies.data.local.MovieDatabase
 import com.danntrp.movies.data.remote.AuthInterceptor
 import com.danntrp.movies.data.remote.MovieService
 import com.danntrp.movies.data.repository.MovieRepositoryImpl
@@ -8,6 +11,7 @@ import com.danntrp.movies.domain.repository.MovieRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
@@ -37,7 +41,15 @@ class DataModule {
 
     @Provides
     @Singleton
-    fun provideMovieRepository(movieService: MovieService): MovieRepository {
-        return MovieRepositoryImpl(movieService = movieService)
+    fun provideGifDatabase(@ApplicationContext context: Context): MovieDatabase {
+        return Room.databaseBuilder(
+            context, MovieDatabase::class.java, "database-movie"
+        ).build()
+    }
+
+    @Provides
+    @Singleton
+    fun provideMovieRepository(movieService: MovieService, movieDatabase: MovieDatabase): MovieRepository {
+        return MovieRepositoryImpl(movieService = movieService, movieDatabase = movieDatabase.dao)
     }
 }
