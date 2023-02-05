@@ -4,13 +4,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="16dp"
-    android:elevation="4dp"
+    android:elevation="12dp"
     app:cardCornerRadius="15dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@drawable/ripple_bg"
+        android:clickable="true"
         android:padding="16dp">
 
         <com.google.android.material.imageview.ShapeableImageView
@@ -36,12 +37,12 @@
             android:layout_marginStart="16dp"
             app:layout_constraintStart_toEndOf="@id/posterImageView"
             app:layout_constraintTop_toTopOf="@id/posterImageView"
-            app:layout_constraintBottom_toTopOf="@id/movieGenreTextView"
-            app:layout_constraintEnd_toEndOf="@id/favoriteImageView"
-            tools:text="Изгой-один: Звёздные войны. Истории"/>
+            app:layout_constraintBottom_toTopOf="@id/movieGenreYearTextView"
+            app:layout_constraintEnd_toStartOf="@id/favoriteImageView"
+            tools:text="Изгой-один: Звёздные войны. Истории fsfsd"/>
 
         <TextView
-            android:id="@+id/movieGenreTextView"
+            android:id="@+id/movieGenreYearTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="16sp"
@@ -58,10 +59,12 @@
             android:layout_height="wrap_content"
             android:src="@drawable/ic_round_star"
             android:layout_marginStart="16dp"
+            android:visibility="gone"
             app:layout_constraintTop_toTopOf="@id/movieNameTextView"
             app:layout_constraintStart_toEndOf="@id/movieNameTextView"
             app:layout_constraintBottom_toBottomOf="@id/movieNameTextView"
-            app:layout_constraintEnd_toEndOf="parent"/>
+            app:layout_constraintEnd_toEndOf="parent"
+            tools:ignore="ContentDescription" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
