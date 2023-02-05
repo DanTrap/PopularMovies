@@ -1,6 +1,8 @@
 package com.danntrp.movies.data.repository
 
 import com.danntrp.movies.core.util.Resource
+import com.danntrp.movies.data.local.MovieDao
+import com.danntrp.movies.data.local.model.MovieEntity
 import com.danntrp.movies.data.remote.MovieService
 import com.danntrp.movies.data.remote.model.MovieDescriptionDto
 import com.danntrp.movies.data.remote.model.MovieDto
@@ -9,7 +11,8 @@ import com.danntrp.movies.domain.model.MovieDescription
 import com.danntrp.movies.domain.repository.MovieRepository
 
 class MovieRepositoryImpl(
-    private val movieService: MovieService
+    private val movieService: MovieService,
+    private val movieDatabase: MovieDao
 ) : MovieRepository {
 
     override suspend fun getPopularMovies(page: Int): Resource<List<Movie>> {
@@ -30,6 +33,18 @@ class MovieRepositoryImpl(
         }
     }
 
+    override suspend fun insert(movie: Movie) {
+        movieDatabase.insert(movie.toEntity())
+    }
+
+    override suspend fun getFavoriteMovies(): List<Movie> {
+        return movieDatabase.getAllMovies().map { it.toDomain() }
+    }
+
+    override suspend fun deleteMovie(id: Int) {
+        movieDatabase.deleteMovie(id)
+    }
+
     private fun MovieDto.toDomain(): Movie {
         return Movie(
             id = filmId,
@@ -47,6 +62,26 @@ class MovieRepositoryImpl(
             genres = genres.map { it.genre },
             countries = countries.map { it.country },
             posterUrl = posterUrl,
+        )
+    }
+
+    private fun MovieEntity.toDomain(): Movie {
+        return Movie(
+            id = id,
+            name = name,
+            year = year,
+            genre = genre,
+            posterUrlPreview = posterUrlPreview,
+        )
+    }
+
+    private fun Movie.toEntity(): MovieEntity {
+        return MovieEntity(
+            id = id,
+            name = name,
+            year = year,
+            genre = genre,
+            posterUrlPreview = posterUrlPreview
         )
     }
 }

@@ -1,4 +1,4 @@
-package com.danntrp.movies.presentation.ui
+package com.danntrp.movies.presentation.ui.description
 
 import android.os.Bundle
 import android.util.Log

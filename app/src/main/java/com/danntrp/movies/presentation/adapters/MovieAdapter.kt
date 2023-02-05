@@ -1,6 +1,7 @@
 package com.danntrp.movies.presentation.adapters
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
@@ -23,10 +24,19 @@ class MovieAdapter : RecyclerView.Adapter<MovieAdapter.MovieViewHolder>() {
                     movie.genre.replaceFirstChar { it.uppercase() },
                     movie.year
                 )
+                favoriteImageView.visibility = if (movie.isFavorite) View.VISIBLE else View.GONE
                 constraintLayout.setOnClickListener {
                     onItemClickListener?.let {
                         it(movie.id)
                     }
+                }
+                constraintLayout.setOnLongClickListener {
+                    onItemLongClickListener?.let {
+                        movie.isFavorite = true
+                        favoriteImageView.visibility = View.VISIBLE
+                        it(movie)
+                    }
+                    return@setOnLongClickListener true
                 }
             }
         }
@@ -53,8 +63,13 @@ class MovieAdapter : RecyclerView.Adapter<MovieAdapter.MovieViewHolder>() {
     }
 
     private var onItemClickListener: ((Int) -> Unit)? = null
+    private var onItemLongClickListener: ((Movie) -> Unit)? = null
 
     fun setOnItemClickListener(listener: (Int) -> Unit) {
         onItemClickListener = listener
+    }
+
+    fun setOnItemLongClickListener(listener: (Movie) -> Unit) {
+        onItemLongClickListener = listener
     }
 }

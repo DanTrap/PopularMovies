@@ -1,6 +1,7 @@
 package com.danntrp.movies.di
 
 import com.danntrp.movies.domain.repository.MovieRepository
+import com.danntrp.movies.domain.usecase.FavoriteMovieUseCase
 import com.danntrp.movies.domain.usecase.MovieDescriptionUseCase
 import com.danntrp.movies.domain.usecase.PopularMovieUseCase
 import dagger.Module
@@ -23,5 +24,11 @@ class DomainModule {
     @Singleton
     fun provideMovieDescriptionUseCase(movieRepository: MovieRepository): MovieDescriptionUseCase {
         return MovieDescriptionUseCase(movieRepository = movieRepository)
+    }
+
+    @Provides
+    @Singleton
+    fun provideFavoriteMovieUseCase(movieRepository: MovieRepository): FavoriteMovieUseCase {
+        return FavoriteMovieUseCase(movieRepository = movieRepository)
     }
 }

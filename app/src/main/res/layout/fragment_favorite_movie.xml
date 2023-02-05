@@ -13,6 +13,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:indeterminate="true"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -24,7 +25,6 @@
         android:layout_height="wrap_content"
         android:background="@color/white"
         android:elevation="0dp"
-
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -34,7 +34,7 @@
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             app:menu="@menu/app_menu"
-            app:title="@string/popular"
+            app:title="Favorite"
             app:titleTextAppearance="@style/TextAppearance.Material3.ActionBar.Title.DanTrap"
             app:titleTextColor="@color/black" />
     </com.google.android.material.appbar.AppBarLayout>

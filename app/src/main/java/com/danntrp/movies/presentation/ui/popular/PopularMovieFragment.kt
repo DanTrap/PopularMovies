@@ -1,4 +1,4 @@
-package com.danntrp.movies.presentation.ui
+package com.danntrp.movies.presentation.ui.popular
 
 import android.os.Bundle
 import android.util.Log
@@ -11,6 +11,8 @@ import com.danntrp.movies.core.util.Resource
 import com.danntrp.movies.databinding.FragmentPopularMovieBinding
 import com.danntrp.movies.presentation.adapters.MarginItemDecorator
 import com.danntrp.movies.presentation.adapters.MovieAdapter
+import com.danntrp.movies.presentation.ui.description.MovieDescriptionFragment
+import com.danntrp.movies.presentation.ui.favorite.FavoriteMovieFragment
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -36,6 +38,11 @@ class PopularMovieFragment : Fragment(R.layout.fragment_popular_movie) {
                 .replace(R.id.fragmentContainer, fragment)
                 .addToBackStack("pop-to-description")
                 .commit()
+        }
+
+        movieAdapter.setOnItemLongClickListener {
+            Log.d("ABOBA", "LONG CLICK, $it")
+            movieViewModel.saveMovie(it)
         }
 
         movieViewModel.popMovie.observe(viewLifecycleOwner) { response ->
@@ -64,6 +71,14 @@ class PopularMovieFragment : Fragment(R.layout.fragment_popular_movie) {
 
         binding.popularButton.setOnClickListener {
             movieViewModel.getPopularMovies()
+        }
+
+        binding.favoriteButton.setOnClickListener {
+            parentFragmentManager
+                .beginTransaction()
+                .replace(R.id.fragmentContainer, FavoriteMovieFragment())
+                .addToBackStack("pop-to-fav")
+                .commit()
         }
 
         binding.repeatButton.setOnClickListener {
