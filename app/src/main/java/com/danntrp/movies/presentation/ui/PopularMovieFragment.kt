@@ -49,18 +49,24 @@ class PopularMovieFragment : Fragment(R.layout.fragment_popular_movie) {
                 }
                 is Resource.Error -> {
                     binding.progressBar.visibility = View.GONE
+                    binding.networkLayout.visibility = View.VISIBLE
                     response.message?.let {
                         Log.e("ABOBA", it)
                     }
                 }
                 is Resource.Loading -> {
                     binding.progressBar.visibility = View.VISIBLE
+                    binding.networkLayout.visibility = View.GONE
                     Log.d("ABOBA", "LOADING")
                 }
             }
         }
 
         binding.popularButton.setOnClickListener {
+            movieViewModel.getPopularMovies()
+        }
+
+        binding.repeatButton.setOnClickListener {
             movieViewModel.getPopularMovies()
         }
     }

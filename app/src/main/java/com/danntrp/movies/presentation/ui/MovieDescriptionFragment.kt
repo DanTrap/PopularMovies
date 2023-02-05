@@ -41,18 +41,19 @@ class MovieDescriptionFragment : Fragment(R.layout.fragment_movie_description) {
                                 this.root.resources.getString(R.string.countries),
                                 movie.countries.joinToString()
                             )
-
                         }
                     }
                 }
                 is Resource.Error -> {
                     binding.progressBar.visibility = View.GONE
+                    binding.networkLayout.visibility = View.VISIBLE
                     response.message?.let {
                         Log.e("ABOBA", it)
                     }
                 }
                 is Resource.Loading -> {
                    binding.progressBar.visibility = View.VISIBLE
+                    binding.networkLayout.visibility = View.GONE
                     Log.d("ABOBA", "LOADING")
                 }
             }
@@ -62,5 +63,8 @@ class MovieDescriptionFragment : Fragment(R.layout.fragment_movie_description) {
             requireActivity().onBackPressedDispatcher.onBackPressed()
         }
 
+        binding.repeatButton.setOnClickListener {
+            descriptionViewModel.getMovieDescription(movieId!!)
+        }
     }
 }

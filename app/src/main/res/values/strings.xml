@@ -6,4 +6,6 @@
     <string name="year_genre" translatable="false">%1$s (%2$s)</string>
     <string name="genres" translatable="false">Жанры: %1$s</string>
     <string name="countries" translatable="false">Страны: %1$s</string>
+    <string name="connection_lost">An error occurred while loading data, please check your network connection</string>
+    <string name="repeat">Repeat</string>
 </resources>
