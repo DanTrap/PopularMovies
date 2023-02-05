@@ -8,7 +8,10 @@ import com.danntrp.movies.core.util.Resource
 import com.danntrp.movies.domain.model.Movie
 import com.danntrp.movies.domain.usecase.PopularMovieUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.launch
+import okio.IOException
+import retrofit2.HttpException
 import javax.inject.Inject
 
 @HiltViewModel
@@ -25,7 +28,13 @@ class MovieViewModel @Inject constructor(
         getPopularMovies()
     }
 
-    fun getPopularMovies() = viewModelScope.launch {
+    fun getPopularMovies() = viewModelScope.launch(CoroutineExceptionHandler { _, throwable ->
+        _popMovie.postValue(when (throwable) {
+            is IOException -> Resource.Error("Network")
+            is HttpException -> Resource.Error("Server")
+            else -> Resource.Error("Something")
+        })
+    }) {
         _popMovie.postValue(Resource.Loading())
         _popMovie.postValue(popularMovieUseCase.getMovies(popularMoviePage))
     }

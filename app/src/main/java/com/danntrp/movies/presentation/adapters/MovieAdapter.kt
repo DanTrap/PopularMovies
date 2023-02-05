@@ -23,6 +23,11 @@ class MovieAdapter : RecyclerView.Adapter<MovieAdapter.MovieViewHolder>() {
                     movie.genre.replaceFirstChar { it.uppercase() },
                     movie.year
                 )
+                constraintLayout.setOnClickListener {
+                    onItemClickListener?.let {
+                        it(movie.id)
+                    }
+                }
             }
         }
     }
@@ -47,4 +52,9 @@ class MovieAdapter : RecyclerView.Adapter<MovieAdapter.MovieViewHolder>() {
         holder.bind(movie)
     }
 
+    private var onItemClickListener: ((Int) -> Unit)? = null
+
+    fun setOnItemClickListener(listener: (Int) -> Unit) {
+        onItemClickListener = listener
+    }
 }

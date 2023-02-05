@@ -8,6 +8,7 @@
     app:cardCornerRadius="15dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@drawable/ripple_bg"
@@ -35,6 +36,7 @@
             android:ellipsize="end"
             android:maxLines="1"
             android:layout_marginStart="16dp"
+            android:textColor="@color/black"
             app:layout_constraintStart_toEndOf="@id/posterImageView"
             app:layout_constraintTop_toTopOf="@id/posterImageView"
             app:layout_constraintBottom_toTopOf="@id/movieGenreYearTextView"
@@ -45,7 +47,7 @@
             android:id="@+id/movieGenreYearTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="16sp"
+            android:textSize="14sp"
             android:textStyle="bold"
             android:textColor="#6A000000"
             app:layout_constraintBottom_toBottomOf="@id/posterImageView"

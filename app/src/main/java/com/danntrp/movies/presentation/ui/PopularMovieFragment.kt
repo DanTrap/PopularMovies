@@ -23,10 +23,19 @@ class PopularMovieFragment : Fragment(R.layout.fragment_popular_movie) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentPopularMovieBinding.bind(view)
+
         setupRecyclerView()
 
-        binding.popularMoviesRecyclerView.setOnClickListener {
-
+        movieAdapter.setOnItemClickListener {
+            val fragment = MovieDescriptionFragment()
+            fragment.arguments = Bundle().apply {
+                putInt("movie-id", it)
+            }
+            parentFragmentManager
+                .beginTransaction()
+                .replace(R.id.fragmentContainer, fragment)
+                .addToBackStack("pop-to-description")
+                .commit()
         }
 
         movieViewModel.popMovie.observe(viewLifecycleOwner) { response ->
