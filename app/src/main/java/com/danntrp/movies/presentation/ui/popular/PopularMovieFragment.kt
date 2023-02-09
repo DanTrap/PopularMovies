@@ -1,5 +1,6 @@
 package com.danntrp.movies.presentation.ui.popular
 
+import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -11,8 +12,7 @@ import com.danntrp.movies.core.util.Resource
 import com.danntrp.movies.databinding.FragmentPopularMovieBinding
 import com.danntrp.movies.presentation.adapters.MarginItemDecorator
 import com.danntrp.movies.presentation.adapters.MovieAdapter
-import com.danntrp.movies.presentation.ui.description.MovieDescriptionFragment
-import com.danntrp.movies.presentation.ui.favorite.FavoriteMovieFragment
+import com.danntrp.movies.presentation.ui.Navigation
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -20,7 +20,13 @@ class PopularMovieFragment : Fragment(R.layout.fragment_popular_movie) {
 
     private lateinit var binding: FragmentPopularMovieBinding
     private lateinit var movieAdapter: MovieAdapter
+    private lateinit var navigation: Navigation
     private val movieViewModel: MovieViewModel by viewModels()
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        navigation = context as Navigation
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -28,16 +34,8 @@ class PopularMovieFragment : Fragment(R.layout.fragment_popular_movie) {
 
         setupRecyclerView()
 
-        movieAdapter.setOnItemClickListener {
-            val fragment = MovieDescriptionFragment()
-            fragment.arguments = Bundle().apply {
-                putInt("movie-id", it)
-            }
-            parentFragmentManager
-                .beginTransaction()
-                .replace(R.id.fragmentContainer, fragment)
-                .addToBackStack("pop-to-description")
-                .commit()
+        movieAdapter.setOnItemClickListener { id ->
+            navigation.showDescriptionFragment(id)
         }
 
         movieAdapter.setOnItemLongClickListener {
@@ -49,7 +47,7 @@ class PopularMovieFragment : Fragment(R.layout.fragment_popular_movie) {
             when (response) {
                 is Resource.Success -> {
                     binding.progressBar.visibility = View.GONE
-                    Log.d("ABOBA", "SUCCESS")
+                    Log.d("ABOBA", "POP FRAGMENT SUCCESS")
                     response.data?.let {
                         movieAdapter.differ.submitList(response.data)
                     }
@@ -74,11 +72,7 @@ class PopularMovieFragment : Fragment(R.layout.fragment_popular_movie) {
         }
 
         binding.favoriteButton.setOnClickListener {
-            parentFragmentManager
-                .beginTransaction()
-                .replace(R.id.fragmentContainer, FavoriteMovieFragment())
-                .addToBackStack("pop-to-fav")
-                .commit()
+            navigation.showFavoriteFragment()
         }
 
         binding.repeatButton.setOnClickListener {
