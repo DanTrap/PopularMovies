@@ -1,5 +1,6 @@
 package com.danntrp.movies.data.local
 
+import androidx.lifecycle.LiveData
 import androidx.room.*
 import com.danntrp.movies.data.local.model.MovieEntity
 
@@ -10,7 +11,7 @@ interface MovieDao {
     suspend fun insert(movieEntity: MovieEntity): Long
 
     @Query("SELECT * FROM favoriteMovies")
-    suspend fun getAllMovies(): List<MovieEntity>
+    fun getAllMoviesLive(): LiveData<List<MovieEntity>>
 
     @Query("DELETE FROM favoriteMovies WHERE id = :id")
     suspend fun deleteMovie(id: Int)

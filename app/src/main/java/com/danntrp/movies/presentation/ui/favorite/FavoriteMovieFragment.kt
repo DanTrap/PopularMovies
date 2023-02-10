@@ -32,7 +32,7 @@ class FavoriteMovieFragment : Fragment(R.layout.fragment_favorite_movie) {
         binding.progressBar.visibility = View.GONE
         setupRecyclerView()
 
-        favoriteMovieViewModel.favMovie.observe(viewLifecycleOwner) {
+        favoriteMovieViewModel.favoriteMovies().observe(viewLifecycleOwner) {
             movieAdapter.differ.submitList(it)
         }
 

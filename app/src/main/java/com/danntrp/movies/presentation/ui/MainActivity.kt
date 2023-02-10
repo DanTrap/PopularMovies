@@ -30,15 +30,28 @@ class MainActivity : AppCompatActivity(), Navigation {
     }
 
     override fun showFavoriteFragment() {
-        supportFragmentManager
-            .beginTransaction()
-            .addToBackStack(null)
-            .replace(R.id.fragmentContainer, favoriteFragment)
-            .commit()
+        if (favoriteFragment.isAdded) {
+            supportFragmentManager
+                .beginTransaction()
+                .hide(popularFragment)
+                .show(favoriteFragment)
+                .commit()
+        } else {
+            supportFragmentManager
+                .beginTransaction()
+                .addToBackStack(null)
+                .add(R.id.fragmentContainer, favoriteFragment)
+                .hide(popularFragment)
+                .commit()
+        }
     }
 
     override fun showPopularFragment() {
-        pop()
+        supportFragmentManager
+            .beginTransaction()
+            .hide(favoriteFragment)
+            .show(popularFragment)
+            .commit()
     }
 
     override fun showDescriptionFragment(id: Int) {

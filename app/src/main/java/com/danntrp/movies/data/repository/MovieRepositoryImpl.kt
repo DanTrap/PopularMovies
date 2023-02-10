@@ -1,5 +1,7 @@
 package com.danntrp.movies.data.repository
 
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.Transformations
 import com.danntrp.movies.core.util.Resource
 import com.danntrp.movies.data.local.MovieDao
 import com.danntrp.movies.data.local.model.MovieEntity
@@ -37,8 +39,10 @@ class MovieRepositoryImpl(
         movieDatabase.insert(movie.toEntity())
     }
 
-    override suspend fun getFavoriteMovies(): List<Movie> {
-        return movieDatabase.getAllMovies().map { it.toDomain() }
+    override fun getFavoriteMovies(): LiveData<List<Movie>> {
+        return Transformations.map(movieDatabase.getAllMoviesLive()) { list ->
+            list.map { it.toDomain() }
+        }
     }
 
     override suspend fun deleteMovie(id: Int) {
