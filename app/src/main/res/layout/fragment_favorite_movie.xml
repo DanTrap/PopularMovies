@@ -34,7 +34,7 @@
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             app:menu="@menu/app_menu"
-            app:title="Favorite"
+            app:title="@string/favorites"
             app:titleTextAppearance="@style/TextAppearance.Material3.ActionBar.Title.DanTrap"
             app:titleTextColor="@color/black" />
     </com.google.android.material.appbar.AppBarLayout>

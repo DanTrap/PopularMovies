@@ -6,6 +6,7 @@ import android.util.Log
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.danntrp.movies.R
 import com.danntrp.movies.core.util.Resource
@@ -14,6 +15,10 @@ import com.danntrp.movies.presentation.adapters.MarginItemDecorator
 import com.danntrp.movies.presentation.adapters.MovieAdapter
 import com.danntrp.movies.presentation.ui.navigation.Navigation
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 @AndroidEntryPoint
 class PopularMovieFragment : Fragment(R.layout.fragment_popular_movie) {
@@ -47,6 +52,8 @@ class PopularMovieFragment : Fragment(R.layout.fragment_popular_movie) {
             when (response) {
                 is Resource.Success -> {
                     binding.progressBar.visibility = View.GONE
+                    binding.networkLayout.visibility = View.GONE
+                    binding.progressBarRepeat.visibility = View.GONE
                     Log.d("ABOBA", "POP FRAGMENT SUCCESS")
                     response.data?.let {
                         movieAdapter.differ.submitList(response.data)
@@ -55,13 +62,18 @@ class PopularMovieFragment : Fragment(R.layout.fragment_popular_movie) {
                 is Resource.Error -> {
                     binding.progressBar.visibility = View.GONE
                     binding.networkLayout.visibility = View.VISIBLE
+                    lifecycleScope.launch {
+                        delay(1500)
+                        withContext(Dispatchers.Main) {
+                            binding.progressBarRepeat.visibility = View.GONE
+                        }
+                    }
                     response.message?.let {
                         Log.e("ABOBA", it)
                     }
                 }
                 is Resource.Loading -> {
                     binding.progressBar.visibility = View.VISIBLE
-                    binding.networkLayout.visibility = View.GONE
                     Log.d("ABOBA", "LOADING")
                 }
             }
@@ -76,6 +88,7 @@ class PopularMovieFragment : Fragment(R.layout.fragment_popular_movie) {
         }
 
         binding.repeatButton.setOnClickListener {
+            binding.progressBarRepeat.visibility = View.VISIBLE
             movieViewModel.getPopularMovies()
         }
     }
