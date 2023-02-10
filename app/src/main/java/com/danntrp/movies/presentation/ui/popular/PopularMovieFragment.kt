@@ -12,7 +12,7 @@ import com.danntrp.movies.core.util.Resource
 import com.danntrp.movies.databinding.FragmentPopularMovieBinding
 import com.danntrp.movies.presentation.adapters.MarginItemDecorator
 import com.danntrp.movies.presentation.adapters.MovieAdapter
-import com.danntrp.movies.presentation.ui.Navigation
+import com.danntrp.movies.presentation.ui.navigation.Navigation
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

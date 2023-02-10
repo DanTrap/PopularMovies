@@ -10,7 +10,7 @@ import com.bumptech.glide.Glide
 import com.danntrp.movies.R
 import com.danntrp.movies.core.util.Resource
 import com.danntrp.movies.databinding.FragmentMovieDescriptionBinding
-import com.danntrp.movies.presentation.ui.Navigation
+import com.danntrp.movies.presentation.ui.navigation.Navigation
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

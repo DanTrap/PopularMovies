@@ -1,11 +1,13 @@
 package com.danntrp.movies.presentation.ui
 
 import android.os.Bundle
+import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
 import com.danntrp.movies.R
 import com.danntrp.movies.databinding.ActivityMainBinding
 import com.danntrp.movies.presentation.ui.description.MovieDescriptionFragment
 import com.danntrp.movies.presentation.ui.favorite.FavoriteMovieFragment
+import com.danntrp.movies.presentation.ui.navigation.Navigation
 import com.danntrp.movies.presentation.ui.popular.PopularMovieFragment
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -21,29 +23,40 @@ class MainActivity : AppCompatActivity(), Navigation {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                val popFragment = supportFragmentManager.findFragmentByTag("pop-fragment")
+                val favFragment = supportFragmentManager.findFragmentByTag("fav-fragment")
+                if (popFragment != null && popFragment.isVisible) {
+                    finish()
+                } else if (favFragment != null && favFragment.isVisible) {
+                    showPopularFragment()
+                } else {
+                    pop()
+                }
+            }
+        })
+
         if (savedInstanceState == null) {
             supportFragmentManager
                 .beginTransaction()
-                .add(R.id.fragmentContainer, popularFragment)
+                .add(R.id.fragmentContainer, popularFragment, "pop-fragment")
+                .commit()
+            supportFragmentManager
+                .beginTransaction()
+                .add(R.id.fragmentContainer, favoriteFragment, "fav-fragment")
+                .addToBackStack(null)
+                .hide(favoriteFragment)
                 .commit()
         }
     }
 
     override fun showFavoriteFragment() {
-        if (favoriteFragment.isAdded) {
-            supportFragmentManager
-                .beginTransaction()
-                .hide(popularFragment)
-                .show(favoriteFragment)
-                .commit()
-        } else {
-            supportFragmentManager
-                .beginTransaction()
-                .addToBackStack(null)
-                .add(R.id.fragmentContainer, favoriteFragment)
-                .hide(popularFragment)
-                .commit()
-        }
+        supportFragmentManager
+            .beginTransaction()
+            .hide(popularFragment)
+            .show(favoriteFragment)
+            .commit()
     }
 
     override fun showPopularFragment() {
@@ -65,11 +78,4 @@ class MainActivity : AppCompatActivity(), Navigation {
     override fun pop() {
         supportFragmentManager.popBackStack()
     }
-}
-
-interface Navigation {
-    fun showFavoriteFragment()
-    fun showPopularFragment()
-    fun showDescriptionFragment(id: Int)
-    fun pop()
 }

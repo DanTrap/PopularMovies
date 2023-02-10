@@ -10,7 +10,7 @@ import com.danntrp.movies.R
 import com.danntrp.movies.databinding.FragmentFavoriteMovieBinding
 import com.danntrp.movies.presentation.adapters.MarginItemDecorator
 import com.danntrp.movies.presentation.adapters.MovieAdapter
-import com.danntrp.movies.presentation.ui.Navigation
+import com.danntrp.movies.presentation.ui.navigation.Navigation
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
