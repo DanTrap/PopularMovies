@@ -49,13 +49,14 @@ class MovieRepositoryImpl(
         movieDatabase.deleteMovie(id)
     }
 
-    private fun MovieDto.toDomain(): Movie {
+    private suspend fun MovieDto.toDomain(): Movie {
         return Movie(
             id = filmId,
             name = nameRu ?: (nameEn ?: "Name is empty"),
             year = year ?: "Year is empty",
             genre = genres[0].genre,
             posterUrlPreview = posterUrlPreview,
+            isFavorite = movieDatabase.contains(filmId)
         )
     }
 
@@ -76,6 +77,7 @@ class MovieRepositoryImpl(
             year = year,
             genre = genre,
             posterUrlPreview = posterUrlPreview,
+            isFavorite = isFavorite
         )
     }
 
@@ -85,7 +87,8 @@ class MovieRepositoryImpl(
             name = name,
             year = year,
             genre = genre,
-            posterUrlPreview = posterUrlPreview
+            posterUrlPreview = posterUrlPreview,
+            isFavorite = isFavorite
         )
     }
 }
