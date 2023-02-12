@@ -1,5 +1,6 @@
 package com.danntrp.movies.presentation.ui.favorite
 
+import android.content.Context
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
@@ -9,7 +10,7 @@ import com.danntrp.movies.R
 import com.danntrp.movies.databinding.FragmentFavoriteMovieBinding
 import com.danntrp.movies.presentation.adapters.MarginItemDecorator
 import com.danntrp.movies.presentation.adapters.MovieAdapter
-import com.danntrp.movies.presentation.ui.popular.PopularMovieFragment
+import com.danntrp.movies.presentation.ui.navigation.Navigation
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -17,7 +18,13 @@ class FavoriteMovieFragment : Fragment(R.layout.fragment_favorite_movie) {
 
     private lateinit var binding: FragmentFavoriteMovieBinding
     private lateinit var movieAdapter: MovieAdapter
+    private lateinit var navigation: Navigation
     private val favoriteMovieViewModel: FavoriteViewModel by viewModels()
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        navigation = context as Navigation
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -25,15 +32,12 @@ class FavoriteMovieFragment : Fragment(R.layout.fragment_favorite_movie) {
         binding.progressBar.visibility = View.GONE
         setupRecyclerView()
 
-        favoriteMovieViewModel.favMovie.observe(viewLifecycleOwner) {
+        favoriteMovieViewModel.favoriteMovies().observe(viewLifecycleOwner) {
             movieAdapter.differ.submitList(it)
         }
 
         binding.popularButton.setOnClickListener {
-            parentFragmentManager
-                .beginTransaction()
-                .replace(R.id.fragmentContainer, PopularMovieFragment())
-                .commit()
+            navigation.showPopularFragment()
         }
     }
 

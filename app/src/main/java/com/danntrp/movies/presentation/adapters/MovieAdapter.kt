@@ -32,8 +32,8 @@ class MovieAdapter : RecyclerView.Adapter<MovieAdapter.MovieViewHolder>() {
                 }
                 constraintLayout.setOnLongClickListener {
                     onItemLongClickListener?.let {
-                        movie.isFavorite = true
                         favoriteImageView.visibility = View.VISIBLE
+                        movie.isFavorite = true
                         it(movie)
                     }
                     return@setOnLongClickListener true

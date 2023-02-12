@@ -5,10 +5,12 @@ import androidx.room.PrimaryKey
 
 @Entity(tableName = "favoriteMovies")
 data class MovieEntity(
-    @PrimaryKey(autoGenerate = false)
+    @PrimaryKey(autoGenerate = true)
+    val index: Int = 0,
     val id: Int,
     val name: String,
     val year: String,
     val genre: String,
     val posterUrlPreview: String,
+    var isFavorite: Boolean = true,
 )

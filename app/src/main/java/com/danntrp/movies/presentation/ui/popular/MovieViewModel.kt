@@ -1,5 +1,6 @@
 package com.danntrp.movies.presentation.ui.popular
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -37,6 +38,7 @@ class MovieViewModel @Inject constructor(
             else -> Resource.Error("Something")
         })
     }) {
+        Log.d("ABOBA", "PISHOU ZAPROS")
         _popMovie.postValue(Resource.Loading())
         _popMovie.postValue(popularMovieUseCase.getMovies(popularMoviePage))
     }
