@@ -1,5 +1,7 @@
 package com.danntrp.movies.presentation.ui
 
+import android.app.SearchManager
+import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.View
@@ -60,15 +62,14 @@ class MainActivity : AppCompatActivity() {
         return super.onCreateOptionsMenu(menu)
     }
 
-    override fun showDescriptionFragment(id: Int) {
-        supportFragmentManager
-            .beginTransaction()
-            .addToBackStack(null)
-            .replace(R.id.fragmentContainer, MovieDescriptionFragment.instance(id))
-            .commit()
-    }
-
-    override fun pop() {
-        supportFragmentManager.popBackStack()
+    override fun onNewIntent(intent: Intent?) {
+        super.onNewIntent(intent)
+        if (intent?.action == Intent.ACTION_SEARCH) {
+            val query = intent.getStringExtra(SearchManager.QUERY)
+            (binding.toolBar.menu.findItem(R.id.searchButton).actionView as SearchView).apply {
+                setQuery(query, true)
+                clearFocus()
+            }
+        }
     }
 }

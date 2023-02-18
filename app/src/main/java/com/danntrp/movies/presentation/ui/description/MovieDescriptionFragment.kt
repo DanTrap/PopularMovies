@@ -75,7 +75,7 @@ class MovieDescriptionFragment : Fragment(R.layout.fragment_movie_description), 
         }
 
         binding.repeatButton.setOnClickListener {
-            
+
         }
     }
 
