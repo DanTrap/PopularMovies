@@ -36,7 +36,7 @@ class MovieRepositoryImpl(
     }
 
     override suspend fun insert(movie: Movie) {
-        movieDatabase.insert(movie.toEntity())
+        if (!movieDatabase.contains(movie.id)) movieDatabase.insert(movie.toEntity())
     }
 
     override fun getFavoriteMovies(): LiveData<List<Movie>> {
@@ -47,6 +47,12 @@ class MovieRepositoryImpl(
 
     override suspend fun deleteMovie(id: Int) {
         movieDatabase.deleteMovie(id)
+    }
+
+    override fun getFavoriteMoviesByName(name: String): LiveData<List<Movie>> {
+        return Transformations.map(movieDatabase.getMovieByName(name)) { list ->
+            list.map { it.toDomain() }
+        }
     }
 
     private suspend fun MovieDto.toDomain(): Movie {
@@ -77,7 +83,7 @@ class MovieRepositoryImpl(
             year = year,
             genre = genre,
             posterUrlPreview = posterUrlPreview,
-            isFavorite = isFavorite
+            isFavorite = true
         )
     }
 
@@ -88,7 +94,6 @@ class MovieRepositoryImpl(
             year = year,
             genre = genre,
             posterUrlPreview = posterUrlPreview,
-            isFavorite = isFavorite
         )
     }
 }

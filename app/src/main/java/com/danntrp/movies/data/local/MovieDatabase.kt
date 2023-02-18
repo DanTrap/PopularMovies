@@ -11,7 +11,7 @@ import com.danntrp.movies.data.local.model.MovieEntity
     version = 1,
     exportSchema = false
 )
-@TypeConverters(Converters::class)
+@TypeConverters(ListStringConverter::class)
 abstract class MovieDatabase : RoomDatabase() {
 
     abstract val dao: MovieDao

@@ -16,4 +16,6 @@ class FavoriteMovieUseCase(
     suspend fun delete(id: Int) {
         movieRepository.deleteMovie(id)
     }
+
+    fun favoritesByName(name: String) = movieRepository.getFavoriteMoviesByName(name)
 }

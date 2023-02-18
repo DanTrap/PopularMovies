@@ -17,4 +17,6 @@ class FavoriteViewModel @Inject constructor(
     fun deleteMovie(id: Int) = viewModelScope.launch {
         favoriteMovieUseCase.delete(id)
     }
+
+    fun favoriteMoviesByName(name: String) = favoriteMovieUseCase.favoritesByName(name)
 }

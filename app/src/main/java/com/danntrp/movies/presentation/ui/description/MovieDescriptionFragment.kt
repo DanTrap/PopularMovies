@@ -3,34 +3,40 @@ package com.danntrp.movies.presentation.ui.description
 import android.content.Context
 import android.os.Bundle
 import android.util.Log
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
 import android.view.View
+import androidx.core.view.MenuHost
+import androidx.core.view.MenuProvider
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
 import com.bumptech.glide.Glide
 import com.danntrp.movies.R
 import com.danntrp.movies.core.util.Resource
 import com.danntrp.movies.databinding.FragmentMovieDescriptionBinding
-import com.danntrp.movies.presentation.ui.navigation.Navigation
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class MovieDescriptionFragment : Fragment(R.layout.fragment_movie_description) {
+class MovieDescriptionFragment : Fragment(R.layout.fragment_movie_description), MenuProvider {
 
     private lateinit var binding: FragmentMovieDescriptionBinding
-    private lateinit var navigation: Navigation
+    private lateinit var menuHost: MenuHost
     private val descriptionViewModel: DescriptionViewModel by viewModels()
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        navigation = context as Navigation
+        menuHost = context as MenuHost
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentMovieDescriptionBinding.bind(view)
 
-        val movieId = arguments?.getInt(KEY)
-        if (savedInstanceState == null) descriptionViewModel.getMovieDescription(movieId!!)
+        menuHost.addMenuProvider(this, viewLifecycleOwner, Lifecycle.State.STARTED)
+
+        descriptionViewModel.getMovieDescription(arguments?.getInt("movie-id") ?: 0)
 
         descriptionViewModel.movieDescription.observe(viewLifecycleOwner) { response ->
             when (response) {
@@ -68,23 +74,14 @@ class MovieDescriptionFragment : Fragment(R.layout.fragment_movie_description) {
             }
         }
 
-        binding.toolBar.setNavigationOnClickListener {
-            navigation.pop()
-        }
-
         binding.repeatButton.setOnClickListener {
-            descriptionViewModel.getMovieDescription(movieId!!)
+
         }
     }
 
-    companion object {
-        private const val KEY = "movie-id"
-        fun instance(id: Int): MovieDescriptionFragment {
-            return MovieDescriptionFragment().apply {
-                arguments = Bundle().apply {
-                    putInt(KEY, id)
-                }
-            }
-        }
+    override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
+        menu.findItem(R.id.searchButton).isVisible = false
     }
+
+    override fun onMenuItemSelected(menuItem: MenuItem) = false
 }

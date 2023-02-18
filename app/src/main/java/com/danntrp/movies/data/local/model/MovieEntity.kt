@@ -12,5 +12,4 @@ data class MovieEntity(
     val year: String,
     val genre: String,
     val posterUrlPreview: String,
-    var isFavorite: Boolean = true,
 )

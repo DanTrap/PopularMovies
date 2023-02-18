@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/popularMovieFragment"
+        android:enabled="true"
+        android:icon="@drawable/selector_popular"
+        android:title="@string/popular"/>
+
+    <item
+        android:id="@+id/favoriteMovieFragment"
+        android:enabled="true"
+        android:icon="@drawable/selector_favorite"
+        android:title="@string/favorites"/>
+
+</menu>
