@@ -2,7 +2,7 @@ package com.danntrp.movies.data.local
 
 import androidx.room.TypeConverter
 
-class Converters {
+class ListStringConverter {
 
     @TypeConverter
     fun fromListString(list: List<String>): String {

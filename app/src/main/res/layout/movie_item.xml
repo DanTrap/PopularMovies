@@ -60,7 +60,7 @@
             android:id="@+id/favoriteImageView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_round_star"
+            android:src="@drawable/ic_favorite_round"
             android:layout_marginStart="16dp"
             android:visibility="gone"
             app:layout_constraintTop_toTopOf="@id/movieNameTextView"

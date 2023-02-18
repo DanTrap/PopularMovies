@@ -16,4 +16,6 @@ interface MovieRepository {
     fun getFavoriteMovies(): LiveData<List<Movie>>
 
     suspend fun deleteMovie(id: Int)
+
+    fun getFavoriteMoviesByName(name: String): LiveData<List<Movie>>
 }
