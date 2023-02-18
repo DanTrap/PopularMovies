@@ -6,5 +6,7 @@
     <string name="favorites">Избранное</string>
     <string name="connection_lost">Произошла ошибка при загрузке данных, проверьте подключение к сети</string>
     <string name="repeat">Повторить</string>
-    <string name="favorite">Избранное</string>
+    <string name="movies">Фильмы</string>
+    <string name="genres">Жанры: %1$s</string>
+    <string name="countries">Страны: %1$s</string>
 </resources>

@@ -5,13 +5,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-        <ScrollView
+        <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:fillViewport="true">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="match_parent">
 
                 <com.google.android.material.progressindicator.CircularProgressIndicator
                     android:id="@+id/progressBar"
@@ -36,7 +37,7 @@
                     tools:src="@drawable/ic_launcher_background"
                     tools:ignore="ContentDescription" />
 
-                <TextView
+                <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/movieNameTextView"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -53,11 +54,12 @@
                     app:layout_constraintTop_toBottomOf="@id/posterImageView"
                     tools:text="Изгой-один: Звёздные войны" />
 
-                <TextView
+                <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/descriptionTextView"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="16dp"
+                    android:justificationMode="inter_word"
                     android:scrollbars="vertical"
                     android:textColor="#6A000000"
                     android:textSize="14sp"
@@ -67,11 +69,12 @@
                     app:layout_constraintTop_toBottomOf="@id/movieNameTextView"
                     tools:text="Сопротивление собирает отряд для выполнения особой миссии - надо выкрасть чертежи самого совершенного и мертоносного оружия Империи. Не всем суждено вернуться домой, но герои готовы к этому, ведь на кону судьба Галактики" />
 
-                <TextView
+                <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/genresTextView"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="16dp"
+                    android:justificationMode="inter_word"
                     android:textColor="#6A000000"
                     android:textSize="14sp"
                     app:layout_constraintBottom_toTopOf="@id/countriesTextView"
@@ -80,12 +83,13 @@
                     app:layout_constraintTop_toBottomOf="@id/descriptionTextView"
                     tools:text="Жанры: фантастика, приключения" />
 
-                <TextView
+                <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/countriesTextView"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="16dp"
                     android:textColor="#6A000000"
+                    android:justificationMode="inter_word"
                     android:textSize="14sp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="@id/genresTextView"
@@ -94,24 +98,7 @@
                     tools:text="Страны: США" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
-        </ScrollView>
-
-    <com.google.android.material.appbar.AppBarLayout
-        android:id="@+id/appBar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@android:color/transparent"
-        android:elevation="0dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <com.google.android.material.appbar.MaterialToolbar
-            android:id="@+id/toolBar"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            app:navigationIcon="@drawable/ic_arrow_back" />
-    </com.google.android.material.appbar.AppBarLayout>
+        </androidx.core.widget.NestedScrollView>
 
     <LinearLayout
         android:id="@+id/networkLayout"
@@ -132,7 +119,7 @@
             android:src="@drawable/ic_cloud_off"
             tools:ignore="ContentDescription" />
 
-        <TextView
+        <com.google.android.material.textview.MaterialTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="32dp"
