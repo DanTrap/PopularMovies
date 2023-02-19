@@ -46,7 +46,9 @@
         <item name="cornerSize">5dp</item>
     </style>
 
-    <style name="Theme.Movies.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+    <style name="Theme.Movies.AppBarOverlay" parent="ThemeOverlay.AppCompat.DayNight.ActionBar">
+        <item name="colorControlNormal">@color/seed</item>
+    </style>
 
     <style name="Theme.Movies.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 </resources>

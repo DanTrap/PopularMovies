@@ -5,113 +5,113 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-        <androidx.core.widget.NestedScrollView
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:fillViewport="true">
+            android:layout_height="match_parent">
 
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
+            <com.google.android.material.progressindicator.CircularProgressIndicator
+                android:id="@+id/progressBar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:indeterminate="true"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-                <com.google.android.material.progressindicator.CircularProgressIndicator
-                    android:id="@+id/progressBar"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:indeterminate="true"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintBottom_toBottomOf="parent"/>
+            <ImageView
+                android:id="@+id/posterImageView"
+                android:layout_width="0dp"
+                android:layout_height="500dp"
+                android:scaleType="fitXY"
+                app:layout_constraintBottom_toTopOf="@id/movieNameTextView"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_chainStyle="spread"
+                tools:ignore="ContentDescription"
+                tools:src="@drawable/ic_launcher_background" />
 
-                <ImageView
-                    android:id="@+id/posterImageView"
-                    android:layout_width="0dp"
-                    android:layout_height="500dp"
-                    android:scaleType="fitXY"
-                    app:layout_constraintBottom_toTopOf="@id/movieNameTextView"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_chainStyle="spread"
-                    tools:src="@drawable/ic_launcher_background"
-                    tools:ignore="ContentDescription" />
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/movieNameTextView"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="16dp"
+                android:textColor="@color/black"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toTopOf="@id/descriptionTextView"
+                app:layout_constraintEnd_toEndOf="@id/posterImageView"
+                app:layout_constraintStart_toStartOf="@id/posterImageView"
+                app:layout_constraintTop_toBottomOf="@id/posterImageView"
+                tools:text="Изгой-один: Звёздные войны" />
 
-                <com.google.android.material.textview.MaterialTextView
-                    android:id="@+id/movieNameTextView"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginTop="16dp"
-                    android:layout_marginEnd="16dp"
-                    android:layout_marginBottom="16dp"
-                    android:textColor="@color/black"
-                    android:textSize="20sp"
-                    android:textStyle="bold"
-                    app:layout_constraintBottom_toTopOf="@id/descriptionTextView"
-                    app:layout_constraintEnd_toEndOf="@id/posterImageView"
-                    app:layout_constraintStart_toStartOf="@id/posterImageView"
-                    app:layout_constraintTop_toBottomOf="@id/posterImageView"
-                    tools:text="Изгой-один: Звёздные войны" />
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/descriptionTextView"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                android:justificationMode="inter_word"
+                android:scrollbars="vertical"
+                android:textColor="@color/md_theme_light_onSurface"
+                android:textSize="14sp"
+                app:layout_constraintBottom_toTopOf="@id/genresTextView"
+                app:layout_constraintEnd_toEndOf="@id/movieNameTextView"
+                app:layout_constraintStart_toStartOf="@id/movieNameTextView"
+                app:layout_constraintTop_toBottomOf="@id/movieNameTextView"
+                tools:text="Сопротивление собирает отряд для выполнения особой миссии - надо выкрасть чертежи самого совершенного и мертоносного оружия Империи. Не всем суждено вернуться домой, но герои готовы к этому, ведь на кону судьба Галактики" />
 
-                <com.google.android.material.textview.MaterialTextView
-                    android:id="@+id/descriptionTextView"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="16dp"
-                    android:justificationMode="inter_word"
-                    android:scrollbars="vertical"
-                    android:textColor="#6A000000"
-                    android:textSize="14sp"
-                    app:layout_constraintBottom_toTopOf="@id/genresTextView"
-                    app:layout_constraintEnd_toEndOf="@id/movieNameTextView"
-                    app:layout_constraintStart_toStartOf="@id/movieNameTextView"
-                    app:layout_constraintTop_toBottomOf="@id/movieNameTextView"
-                    tools:text="Сопротивление собирает отряд для выполнения особой миссии - надо выкрасть чертежи самого совершенного и мертоносного оружия Империи. Не всем суждено вернуться домой, но герои готовы к этому, ведь на кону судьба Галактики" />
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/genresTextView"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                android:justificationMode="inter_word"
+                android:textColor="@color/md_theme_light_onSurface"
+                android:textSize="14sp"
+                app:layout_constraintBottom_toTopOf="@id/countriesTextView"
+                app:layout_constraintEnd_toEndOf="@id/descriptionTextView"
+                app:layout_constraintStart_toStartOf="@id/descriptionTextView"
+                app:layout_constraintTop_toBottomOf="@id/descriptionTextView"
+                tools:text="Жанры: фантастика, приключения" />
 
-                <com.google.android.material.textview.MaterialTextView
-                    android:id="@+id/genresTextView"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="16dp"
-                    android:justificationMode="inter_word"
-                    android:textColor="#6A000000"
-                    android:textSize="14sp"
-                    app:layout_constraintBottom_toTopOf="@id/countriesTextView"
-                    app:layout_constraintEnd_toEndOf="@id/descriptionTextView"
-                    app:layout_constraintStart_toStartOf="@id/descriptionTextView"
-                    app:layout_constraintTop_toBottomOf="@id/descriptionTextView"
-                    tools:text="Жанры: фантастика, приключения" />
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/countriesTextView"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                android:justificationMode="inter_word"
+                android:textColor="@color/md_theme_light_onSurface"
+                android:textSize="14sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="@id/genresTextView"
+                app:layout_constraintStart_toStartOf="@id/genresTextView"
+                app:layout_constraintTop_toBottomOf="@id/genresTextView"
+                tools:text="Страны: США" />
 
-                <com.google.android.material.textview.MaterialTextView
-                    android:id="@+id/countriesTextView"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="16dp"
-                    android:textColor="#6A000000"
-                    android:justificationMode="inter_word"
-                    android:textSize="14sp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="@id/genresTextView"
-                    app:layout_constraintStart_toStartOf="@id/genresTextView"
-                    app:layout_constraintTop_toBottomOf="@id/genresTextView"
-                    tools:text="Страны: США" />
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
-        </androidx.core.widget.NestedScrollView>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.core.widget.NestedScrollView>
 
     <LinearLayout
         android:id="@+id/networkLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@color/white"
         android:gravity="center"
         android:orientation="vertical"
         android:visibility="gone"
-        android:background="@color/white"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent">
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
         <ImageView
             android:layout_width="wrap_content"
