@@ -23,9 +23,9 @@
                 android:id="@+id/toolBar"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
-                app:title="@string/popular"
+                app:layout_scrollFlags="scroll|enterAlways|snap"
                 app:popupTheme="@style/Theme.Movies.PopupOverlay"
-                app:layout_scrollFlags="scroll|enterAlways|snap" />
+                app:title="@string/popular" />
         </com.google.android.material.appbar.AppBarLayout>
 
         <androidx.fragment.app.FragmentContainerView
@@ -33,8 +33,8 @@
             android:name="androidx.navigation.fragment.NavHostFragment"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior"
             app:defaultNavHost="true"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"
             app:navGraph="@navigation/nav_graph"
             tools:layout="@layout/fragment_popular_movie" />
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
@@ -43,5 +43,7 @@
         android:id="@+id/bottomNavView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        app:itemIconTint="@color/selector_selected_color"
+        app:itemTextColor="@color/selector_selected_color"
         app:menu="@menu/bottom_menu" />
 </LinearLayout>

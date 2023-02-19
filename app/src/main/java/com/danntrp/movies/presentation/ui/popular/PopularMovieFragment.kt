@@ -62,7 +62,10 @@ class PopularMovieFragment : Fragment(R.layout.fragment_popular_movie), MenuProv
         }
 
         movieAdapter.setOnItemClickListener { id ->
-            findNavController().navigate(R.id.action_popularMovieFragment_to_movieDescriptionFragment, bundleOf("movie-id" to id))
+            findNavController().navigate(
+                R.id.action_popularMovieFragment_to_movieDescriptionFragment,
+                bundleOf("movie-id" to id)
+            )
         }
 
         movieAdapter.setOnItemLongClickListener {
