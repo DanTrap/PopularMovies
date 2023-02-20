@@ -3,39 +3,66 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" >
+    android:layout_height="match_parent">
 
     <com.google.android.material.progressindicator.CircularProgressIndicator
         android:id="@+id/progressBar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:indeterminate="true"
-        tools:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        tools:visibility="gone" />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/popularMoviesRecyclerView"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:id="@+id/coordinator"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent">
+
+        <com.google.android.material.appbar.AppBarLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fitsSystemWindows="true"
+            android:theme="@style/Theme.Movies.AppBarOverlay"
+            app:liftOnScrollTargetViewId="@id/popularMoviesRecyclerView">
+
+            <com.google.android.material.appbar.MaterialToolbar
+                android:id="@+id/toolBar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                app:layout_scrollFlags="scroll|enterAlways|snap"
+                app:popupTheme="@style/Theme.Movies.PopupOverlay" />
+        </com.google.android.material.appbar.AppBarLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/popularMoviesRecyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/coordinator" />
+
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
     <LinearLayout
         android:id="@+id/networkLayout"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:background="@color/white"
-        android:gravity="center"
-        android:orientation="vertical"
-        android:visibility="gone"
         android:clickable="true"
         android:focusable="true"
         android:focusableInTouchMode="true"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -61,13 +88,13 @@
             android:id="@+id/progressBarRepeat"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:indeterminate="true"
             android:layout_marginBottom="32dp"
-            tools:visibility="gone"
+            android:indeterminate="true"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            tools:visibility="gone" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/repeatButton"
