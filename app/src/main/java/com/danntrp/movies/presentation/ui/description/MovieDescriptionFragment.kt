@@ -16,6 +16,7 @@ import com.bumptech.glide.Glide
 import com.danntrp.movies.R
 import com.danntrp.movies.core.util.Resource
 import com.danntrp.movies.databinding.FragmentMovieDescriptionBinding
+import com.danntrp.movies.presentation.ui.ToolbarHost
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -23,11 +24,13 @@ class MovieDescriptionFragment : Fragment(R.layout.fragment_movie_description), 
 
     private lateinit var binding: FragmentMovieDescriptionBinding
     private lateinit var menuHost: MenuHost
+    private lateinit var toolbarHost: ToolbarHost
     private val descriptionViewModel: DescriptionViewModel by viewModels()
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
         menuHost = context as MenuHost
+        toolbarHost = context as ToolbarHost
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -35,6 +38,8 @@ class MovieDescriptionFragment : Fragment(R.layout.fragment_movie_description), 
         binding = FragmentMovieDescriptionBinding.bind(view)
 
         menuHost.addMenuProvider(this, viewLifecycleOwner, Lifecycle.State.STARTED)
+
+        toolbarHost.setToolbar(binding.toolBar)
 
         descriptionViewModel.getMovieDescription(arguments?.getInt("movie-id") ?: 0)
 
@@ -46,7 +51,7 @@ class MovieDescriptionFragment : Fragment(R.layout.fragment_movie_description), 
                     response.data?.let { movie ->
                         binding.apply {
                             Glide.with(binding.root).load(movie.posterUrl).into(posterImageView)
-                            movieNameTextView.text = movie.name
+                            collapsing.title = movie.name
                             descriptionTextView.text = movie.description
                             genresTextView.text = String.format(
                                 this.root.resources.getString(R.string.genres),
@@ -80,6 +85,7 @@ class MovieDescriptionFragment : Fragment(R.layout.fragment_movie_description), 
     }
 
     override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
+        menuInflater.inflate(R.menu.app_menu, menu)
         menu.findItem(R.id.searchButton).isVisible = false
     }
 

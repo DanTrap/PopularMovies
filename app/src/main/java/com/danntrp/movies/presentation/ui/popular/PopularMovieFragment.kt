@@ -25,6 +25,7 @@ import com.danntrp.movies.core.util.Resource
 import com.danntrp.movies.databinding.FragmentPopularMovieBinding
 import com.danntrp.movies.presentation.adapters.MarginItemDecorator
 import com.danntrp.movies.presentation.adapters.MovieAdapter
+import com.danntrp.movies.presentation.ui.ToolbarHost
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
@@ -38,6 +39,7 @@ class PopularMovieFragment : Fragment(R.layout.fragment_popular_movie), MenuProv
     private lateinit var movieAdapter: MovieAdapter
     private lateinit var searchableInfo: SearchableInfo
     private lateinit var menuHost: MenuHost
+    private lateinit var toolbarHost: ToolbarHost
     private val movieViewModel: MovieViewModel by viewModels()
 
     override fun onAttach(context: Context) {
@@ -45,6 +47,7 @@ class PopularMovieFragment : Fragment(R.layout.fragment_popular_movie), MenuProv
         val searchManager = context.getSystemService(Context.SEARCH_SERVICE) as SearchManager
         searchableInfo = searchManager.getSearchableInfo((context as Activity).componentName)
         menuHost = context as MenuHost
+        toolbarHost = context as ToolbarHost
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -52,6 +55,8 @@ class PopularMovieFragment : Fragment(R.layout.fragment_popular_movie), MenuProv
         binding = FragmentPopularMovieBinding.bind(view)
 
         menuHost.addMenuProvider(this, viewLifecycleOwner, Lifecycle.State.STARTED)
+
+        toolbarHost.setToolbar(binding.toolBar)
 
         movieAdapter = MovieAdapter()
 
@@ -110,6 +115,8 @@ class PopularMovieFragment : Fragment(R.layout.fragment_popular_movie), MenuProv
     }
 
     override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
+        menuInflater.inflate(R.menu.app_menu, menu)
+
         (menu.findItem(R.id.searchButton).actionView as SearchView).apply {
             setSearchableInfo(searchableInfo)
 

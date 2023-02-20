@@ -20,6 +20,7 @@ import com.danntrp.movies.R
 import com.danntrp.movies.databinding.FragmentFavoriteMovieBinding
 import com.danntrp.movies.presentation.adapters.MarginItemDecorator
 import com.danntrp.movies.presentation.adapters.MovieAdapter
+import com.danntrp.movies.presentation.ui.ToolbarHost
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -29,6 +30,7 @@ class FavoriteMovieFragment : Fragment(R.layout.fragment_favorite_movie), MenuPr
     private lateinit var movieAdapter: MovieAdapter
     private lateinit var searchableInfo: SearchableInfo
     private lateinit var menuHost: MenuHost
+    private lateinit var toolbarHost: ToolbarHost
     private val favoriteMovieViewModel: FavoriteViewModel by viewModels()
 
     override fun onAttach(context: Context) {
@@ -36,6 +38,7 @@ class FavoriteMovieFragment : Fragment(R.layout.fragment_favorite_movie), MenuPr
         val searchManager = context.getSystemService(Context.SEARCH_SERVICE) as SearchManager
         searchableInfo = searchManager.getSearchableInfo((context as Activity).componentName)
         menuHost = context as MenuHost
+        toolbarHost = context as ToolbarHost
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -44,9 +47,11 @@ class FavoriteMovieFragment : Fragment(R.layout.fragment_favorite_movie), MenuPr
 
         menuHost.addMenuProvider(this, viewLifecycleOwner, Lifecycle.State.STARTED)
 
+        toolbarHost.setToolbar(binding.toolBar)
+
         movieAdapter = MovieAdapter()
 
-        binding.popularMoviesRecyclerView.apply {
+        binding.favoriteMoviesRecyclerView.apply {
             adapter = movieAdapter
             layoutManager = LinearLayoutManager(activity)
             addItemDecoration(MarginItemDecorator(resources.getDimensionPixelSize(R.dimen.recycler_view_items_margin)))
@@ -67,8 +72,11 @@ class FavoriteMovieFragment : Fragment(R.layout.fragment_favorite_movie), MenuPr
     }
 
     override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
+        menuInflater.inflate(R.menu.app_menu, menu)
+
         (menu.findItem(R.id.searchButton).actionView as SearchView).apply {
             setSearchableInfo(searchableInfo)
+
             setOnQueryTextListener(object : SearchView.OnQueryTextListener {
                 override fun onQueryTextChange(query: String?) = searchFavoriteMoviesByName(query)
 

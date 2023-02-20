@@ -21,6 +21,5 @@
     <fragment
         android:id="@+id/movieDescriptionFragment"
         android:name="com.danntrp.movies.presentation.ui.description.MovieDescriptionFragment"
-        android:label="MovieDescriptionFragment"
         tools:layout="@layout/fragment_movie_description"/>
 </navigation>
