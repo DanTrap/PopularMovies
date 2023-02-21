@@ -20,11 +20,13 @@ import com.danntrp.movies.R
 import com.danntrp.movies.databinding.FragmentFavoriteMovieBinding
 import com.danntrp.movies.presentation.adapters.MarginItemDecorator
 import com.danntrp.movies.presentation.adapters.MovieAdapter
+import com.danntrp.movies.presentation.ui.MovieSearch
 import com.danntrp.movies.presentation.ui.ToolbarHost
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class FavoriteMovieFragment : Fragment(R.layout.fragment_favorite_movie), MenuProvider {
+class FavoriteMovieFragment : Fragment(R.layout.fragment_favorite_movie), MenuProvider,
+    MovieSearch {
 
     private lateinit var binding: FragmentFavoriteMovieBinding
     private lateinit var movieAdapter: MovieAdapter
@@ -62,13 +64,12 @@ class FavoriteMovieFragment : Fragment(R.layout.fragment_favorite_movie), MenuPr
         }
     }
 
-    private fun searchFavoriteMoviesByName(query: String?): Boolean {
+    override fun searchMovieByName(query: String?) {
         if (query != null) {
             favoriteMovieViewModel.favoriteMoviesByName(query).observe(viewLifecycleOwner) {
                 movieAdapter.differ.submitList(it)
             }
         }
-        return true
     }
 
     override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
@@ -78,7 +79,10 @@ class FavoriteMovieFragment : Fragment(R.layout.fragment_favorite_movie), MenuPr
             setSearchableInfo(searchableInfo)
 
             setOnQueryTextListener(object : SearchView.OnQueryTextListener {
-                override fun onQueryTextChange(query: String?) = searchFavoriteMoviesByName(query)
+                override fun onQueryTextChange(query: String?): Boolean {
+                    searchMovieByName(query)
+                    return true
+                }
 
                 override fun onQueryTextSubmit(query: String?) = true
             })
@@ -86,4 +90,5 @@ class FavoriteMovieFragment : Fragment(R.layout.fragment_favorite_movie), MenuPr
     }
 
     override fun onMenuItemSelected(menuItem: MenuItem) = true
+
 }
