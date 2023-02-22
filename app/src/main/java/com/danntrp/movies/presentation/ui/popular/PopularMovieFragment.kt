@@ -20,11 +20,13 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.danntrp.movies.R
 import com.danntrp.movies.core.util.Resource
 import com.danntrp.movies.databinding.FragmentPopularMovieBinding
 import com.danntrp.movies.presentation.adapters.MarginItemDecorator
 import com.danntrp.movies.presentation.adapters.MovieAdapter
+import com.danntrp.movies.presentation.ui.MovieSearch
 import com.danntrp.movies.presentation.ui.ToolbarHost
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
@@ -33,7 +35,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 @AndroidEntryPoint
-class PopularMovieFragment : Fragment(R.layout.fragment_popular_movie), MenuProvider {
+class PopularMovieFragment : Fragment(R.layout.fragment_popular_movie), MenuProvider, MovieSearch {
 
     private lateinit var binding: FragmentPopularMovieBinding
     private lateinit var movieAdapter: MovieAdapter
@@ -58,7 +60,9 @@ class PopularMovieFragment : Fragment(R.layout.fragment_popular_movie), MenuProv
 
         toolbarHost.setToolbar(binding.toolBar)
 
-        movieAdapter = MovieAdapter()
+        movieAdapter = MovieAdapter().apply {
+            stateRestorationPolicy = RecyclerView.Adapter.StateRestorationPolicy.PREVENT_WHEN_EMPTY
+        }
 
         binding.popularMoviesRecyclerView.apply {
             adapter = movieAdapter
@@ -112,6 +116,22 @@ class PopularMovieFragment : Fragment(R.layout.fragment_popular_movie), MenuProv
             binding.progressBarRepeat.visibility = View.VISIBLE
             movieViewModel.getPopularMovies()
         }
+
+        val liveData = findNavController().currentBackStackEntry?.savedStateHandle
+            ?.getLiveData<String>(R.id.popular.toString())
+
+        liveData?.observe(viewLifecycleOwner) {
+            if (it == null) return@observe
+            binding.appBar.setExpanded(true, true)
+            binding.popularMoviesRecyclerView.smoothScrollToPosition(0)
+            liveData.value = null
+        }
+    }
+
+    override fun searchMovieByName(query: String?) {
+        if (query != null) {
+            //TODO
+        }
     }
 
     override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
@@ -121,9 +141,15 @@ class PopularMovieFragment : Fragment(R.layout.fragment_popular_movie), MenuProv
             setSearchableInfo(searchableInfo)
 
             setOnQueryTextListener(object : SearchView.OnQueryTextListener {
-                override fun onQueryTextChange(query: String?) = true
+                override fun onQueryTextChange(query: String?): Boolean {
+                    searchMovieByName(query)
+                    return true
+                }
 
-                override fun onQueryTextSubmit(query: String?) = true
+                override fun onQueryTextSubmit(query: String?): Boolean {
+                    clearFocus()
+                    return true
+                }
             })
         }
     }

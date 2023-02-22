@@ -15,16 +15,20 @@ import androidx.core.view.MenuProvider
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.danntrp.movies.R
 import com.danntrp.movies.databinding.FragmentFavoriteMovieBinding
 import com.danntrp.movies.presentation.adapters.MarginItemDecorator
 import com.danntrp.movies.presentation.adapters.MovieAdapter
+import com.danntrp.movies.presentation.ui.MovieSearch
 import com.danntrp.movies.presentation.ui.ToolbarHost
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class FavoriteMovieFragment : Fragment(R.layout.fragment_favorite_movie), MenuProvider {
+class FavoriteMovieFragment : Fragment(R.layout.fragment_favorite_movie), MenuProvider,
+    MovieSearch {
 
     private lateinit var binding: FragmentFavoriteMovieBinding
     private lateinit var movieAdapter: MovieAdapter
@@ -49,7 +53,9 @@ class FavoriteMovieFragment : Fragment(R.layout.fragment_favorite_movie), MenuPr
 
         toolbarHost.setToolbar(binding.toolBar)
 
-        movieAdapter = MovieAdapter()
+        movieAdapter = MovieAdapter().apply {
+            stateRestorationPolicy = RecyclerView.Adapter.StateRestorationPolicy.PREVENT_WHEN_EMPTY
+        }
 
         binding.favoriteMoviesRecyclerView.apply {
             adapter = movieAdapter
@@ -60,15 +66,24 @@ class FavoriteMovieFragment : Fragment(R.layout.fragment_favorite_movie), MenuPr
         favoriteMovieViewModel.favoriteMovies().observe(viewLifecycleOwner) {
             movieAdapter.differ.submitList(it)
         }
+
+        val liveData = findNavController().currentBackStackEntry?.savedStateHandle
+            ?.getLiveData<String>(R.id.favorite.toString())
+
+        liveData?.observe(viewLifecycleOwner) {
+            if (it == null) return@observe
+            binding.appBar.setExpanded(true, true)
+            binding.favoriteMoviesRecyclerView.smoothScrollToPosition(0)
+            liveData.value = null
+        }
     }
 
-    private fun searchFavoriteMoviesByName(query: String?): Boolean {
+    override fun searchMovieByName(query: String?) {
         if (query != null) {
             favoriteMovieViewModel.favoriteMoviesByName(query).observe(viewLifecycleOwner) {
                 movieAdapter.differ.submitList(it)
             }
         }
-        return true
     }
 
     override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
@@ -78,12 +93,19 @@ class FavoriteMovieFragment : Fragment(R.layout.fragment_favorite_movie), MenuPr
             setSearchableInfo(searchableInfo)
 
             setOnQueryTextListener(object : SearchView.OnQueryTextListener {
-                override fun onQueryTextChange(query: String?) = searchFavoriteMoviesByName(query)
+                override fun onQueryTextChange(query: String?): Boolean {
+                    searchMovieByName(query)
+                    return true
+                }
 
-                override fun onQueryTextSubmit(query: String?) = true
+                override fun onQueryTextSubmit(query: String?): Boolean {
+                    clearFocus()
+                    return true
+                }
             })
         }
     }
 
     override fun onMenuItemSelected(menuItem: MenuItem) = true
+
 }
