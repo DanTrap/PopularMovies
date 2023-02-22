@@ -11,6 +11,7 @@ import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.AppBarConfiguration
+import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.danntrp.movies.R
@@ -40,6 +41,10 @@ class MainActivity : AppCompatActivity(), ToolbarHost {
 
         binding.bottomNavView.setupWithNavController(navController)
 
+        binding.bottomNavView.setOnItemReselectedListener {
+            navController.currentBackStackEntry?.savedStateHandle?.set(it.itemId.toString(), "UP")
+        }
+
         navController.addOnDestinationChangedListener { _, destination, _ ->
             when (destination.id) {
                 R.id.movieDescriptionFragment -> binding.bottomNavView.visibility = View.GONE
@@ -49,7 +54,7 @@ class MainActivity : AppCompatActivity(), ToolbarHost {
     }
 
     override fun onSupportNavigateUp(): Boolean {
-        return navController.navigateUp() || super.onSupportNavigateUp()
+        return navController.navigateUp(appBarConfiguration)
     }
 
     override fun onNewIntent(intent: Intent?) {
@@ -58,7 +63,6 @@ class MainActivity : AppCompatActivity(), ToolbarHost {
             val query = intent.getStringExtra(SearchManager.QUERY)
             (toolBar.menu.findItem(R.id.searchButton).actionView as SearchView).apply {
                 setQuery(query, true)
-                clearFocus()
             }
         }
     }

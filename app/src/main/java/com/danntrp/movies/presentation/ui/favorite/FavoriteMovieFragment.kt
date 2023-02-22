@@ -15,7 +15,9 @@ import androidx.core.view.MenuProvider
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.danntrp.movies.R
 import com.danntrp.movies.databinding.FragmentFavoriteMovieBinding
 import com.danntrp.movies.presentation.adapters.MarginItemDecorator
@@ -51,7 +53,9 @@ class FavoriteMovieFragment : Fragment(R.layout.fragment_favorite_movie), MenuPr
 
         toolbarHost.setToolbar(binding.toolBar)
 
-        movieAdapter = MovieAdapter()
+        movieAdapter = MovieAdapter().apply {
+            stateRestorationPolicy = RecyclerView.Adapter.StateRestorationPolicy.PREVENT_WHEN_EMPTY
+        }
 
         binding.favoriteMoviesRecyclerView.apply {
             adapter = movieAdapter
@@ -61,6 +65,16 @@ class FavoriteMovieFragment : Fragment(R.layout.fragment_favorite_movie), MenuPr
 
         favoriteMovieViewModel.favoriteMovies().observe(viewLifecycleOwner) {
             movieAdapter.differ.submitList(it)
+        }
+
+        val liveData = findNavController().currentBackStackEntry?.savedStateHandle
+            ?.getLiveData<String>(R.id.favorite.toString())
+
+        liveData?.observe(viewLifecycleOwner) {
+            if (it == null) return@observe
+            binding.appBar.setExpanded(true, true)
+            binding.favoriteMoviesRecyclerView.smoothScrollToPosition(0)
+            liveData.value = null
         }
     }
 
@@ -84,7 +98,10 @@ class FavoriteMovieFragment : Fragment(R.layout.fragment_favorite_movie), MenuPr
                     return true
                 }
 
-                override fun onQueryTextSubmit(query: String?) = true
+                override fun onQueryTextSubmit(query: String?): Boolean {
+                    clearFocus()
+                    return true
+                }
             })
         }
     }

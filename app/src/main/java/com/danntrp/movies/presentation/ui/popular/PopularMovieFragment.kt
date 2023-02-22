@@ -20,6 +20,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.danntrp.movies.R
 import com.danntrp.movies.core.util.Resource
 import com.danntrp.movies.databinding.FragmentPopularMovieBinding
@@ -59,7 +60,9 @@ class PopularMovieFragment : Fragment(R.layout.fragment_popular_movie), MenuProv
 
         toolbarHost.setToolbar(binding.toolBar)
 
-        movieAdapter = MovieAdapter()
+        movieAdapter = MovieAdapter().apply {
+            stateRestorationPolicy = RecyclerView.Adapter.StateRestorationPolicy.PREVENT_WHEN_EMPTY
+        }
 
         binding.popularMoviesRecyclerView.apply {
             adapter = movieAdapter
@@ -113,6 +116,16 @@ class PopularMovieFragment : Fragment(R.layout.fragment_popular_movie), MenuProv
             binding.progressBarRepeat.visibility = View.VISIBLE
             movieViewModel.getPopularMovies()
         }
+
+        val liveData = findNavController().currentBackStackEntry?.savedStateHandle
+            ?.getLiveData<String>(R.id.popular.toString())
+
+        liveData?.observe(viewLifecycleOwner) {
+            if (it == null) return@observe
+            binding.appBar.setExpanded(true, true)
+            binding.popularMoviesRecyclerView.smoothScrollToPosition(0)
+            liveData.value = null
+        }
     }
 
     override fun searchMovieByName(query: String?) {
@@ -133,7 +146,10 @@ class PopularMovieFragment : Fragment(R.layout.fragment_popular_movie), MenuProv
                     return true
                 }
 
-                override fun onQueryTextSubmit(query: String?) = true
+                override fun onQueryTextSubmit(query: String?): Boolean {
+                    clearFocus()
+                    return true
+                }
             })
         }
     }
