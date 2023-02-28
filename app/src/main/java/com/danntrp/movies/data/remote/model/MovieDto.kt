@@ -13,4 +13,10 @@ data class MovieDto(
     val posterUrl: String,
     val posterUrlPreview: String,
     val ratingChange: Any?
-)
+) {
+    interface Mapper<T> {
+        fun map(movieDto: MovieDto, isFavorite: Boolean): T
+    }
+
+    fun <T> map(mapper: Mapper<T>, isFavorite: Boolean): T = mapper.map(this, isFavorite)
+}

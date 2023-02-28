@@ -7,4 +7,10 @@ data class Movie(
     val genre: String,
     val posterUrlPreview: String,
     var isFavorite: Boolean = false,
-)
+) {
+    interface Mapper<T> {
+        fun map(movie: Movie): T
+    }
+
+    fun <T> map(mapper: Mapper<T>): T = mapper.map(this)
+}

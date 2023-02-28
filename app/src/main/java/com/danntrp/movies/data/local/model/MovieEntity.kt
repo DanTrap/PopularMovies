@@ -12,4 +12,10 @@ data class MovieEntity(
     val year: String,
     val genre: String,
     val posterUrlPreview: String,
-)
+) {
+    interface Mapper<T> {
+        fun map(movieEntity: MovieEntity): T
+    }
+
+    fun <T> map(mapper: Mapper<T>): T = mapper.map(this)
+}
