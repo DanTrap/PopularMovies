@@ -1,9 +1,8 @@
-package com.danntrp.movies.data
+package com.danntrp.movies.data.remote
 
 import android.util.Log
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
-import com.danntrp.movies.data.remote.MovieService
 import com.danntrp.movies.data.remote.model.MovieDto
 import okio.IOException
 import retrofit2.HttpException

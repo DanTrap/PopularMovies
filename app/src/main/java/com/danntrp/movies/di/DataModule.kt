@@ -4,9 +4,18 @@ import android.content.Context
 import androidx.room.Room
 import com.danntrp.movies.BuildConfig
 import com.danntrp.movies.data.local.MovieDatabase
+import com.danntrp.movies.data.local.model.MovieEntity
+import com.danntrp.movies.data.mappers.MapperMovieDescriptionDtoToDomain
+import com.danntrp.movies.data.mappers.MapperMovieDtoToDomain
+import com.danntrp.movies.data.mappers.MapperMovieEntityToDomain
+import com.danntrp.movies.data.mappers.MapperMovieToEntity
 import com.danntrp.movies.data.remote.AuthInterceptor
 import com.danntrp.movies.data.remote.MovieService
+import com.danntrp.movies.data.remote.model.MovieDescriptionDto
+import com.danntrp.movies.data.remote.model.MovieDto
 import com.danntrp.movies.data.repository.MovieRepositoryImpl
+import com.danntrp.movies.domain.model.Movie
+import com.danntrp.movies.domain.model.MovieDescription
 import com.danntrp.movies.domain.repository.MovieRepository
 import dagger.Module
 import dagger.Provides
@@ -49,7 +58,45 @@ class DataModule {
 
     @Provides
     @Singleton
-    fun provideMovieRepository(movieService: MovieService, movieDatabase: MovieDatabase): MovieRepository {
-        return MovieRepositoryImpl(movieService = movieService, movieDatabase = movieDatabase.dao)
+    fun provideMovieRepository(
+        movieService: MovieService,
+        movieDatabase: MovieDatabase,
+        mapperMovieDtoToDomain: MovieDto.Mapper<Movie>,
+        mapperMovieDescriptionDtoToDomain: MovieDescriptionDto.Mapper<MovieDescription>,
+        mapperMovieEntityToDomain: MovieEntity.Mapper<Movie>,
+        mapperMovieToEntity: Movie.Mapper<MovieEntity>
+    ): MovieRepository {
+        return MovieRepositoryImpl(
+            movieService = movieService,
+            movieDatabase = movieDatabase.dao,
+            mapperMovieDtoToDomain = mapperMovieDtoToDomain,
+            mapperMovieDescriptionDtoToDomain = mapperMovieDescriptionDtoToDomain,
+            mapperMovieEntityToDomain = mapperMovieEntityToDomain,
+            mapperMovieToEntity = mapperMovieToEntity
+        )
+    }
+
+    @Provides
+    @Singleton
+    fun provideMapperDtoToDomain(): MovieDto.Mapper<Movie> {
+        return MapperMovieDtoToDomain()
+    }
+
+    @Provides
+    @Singleton
+    fun provideMapperMovieDescriptionDtoToDomain(): MovieDescriptionDto.Mapper<MovieDescription> {
+        return MapperMovieDescriptionDtoToDomain()
+    }
+
+    @Provides
+    @Singleton
+    fun provideMapperMovieEntityToDomain(): MovieEntity.Mapper<Movie> {
+        return MapperMovieEntityToDomain()
+    }
+
+    @Provides
+    @Singleton
+    fun provideMapperMovieToEntity(): Movie.Mapper<MovieEntity> {
+        return MapperMovieToEntity()
     }
 }

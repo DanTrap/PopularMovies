@@ -45,4 +45,10 @@ data class MovieDescriptionDto(
     val hasImax: Boolean?,
     val has3D: Boolean?,
     val lastSync: String
-)
+) {
+    interface Mapper<T> {
+        fun map(movieDescriptionDto: MovieDescriptionDto): T
+    }
+
+    fun <T> map(mapper: Mapper<T>): T = mapper.map(this)
+}
