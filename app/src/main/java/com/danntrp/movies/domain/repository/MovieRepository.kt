@@ -1,13 +1,15 @@
 package com.danntrp.movies.domain.repository
 
 import androidx.lifecycle.LiveData
-import com.danntrp.movies.core.util.Resource
+import androidx.paging.PagingData
+import com.danntrp.movies.util.Resource
 import com.danntrp.movies.domain.model.Movie
 import com.danntrp.movies.domain.model.MovieDescription
+import kotlinx.coroutines.flow.Flow
 
 interface MovieRepository {
 
-    suspend fun getPopularMovies(page: Int): Resource<List<Movie>>
+    fun getPagedPopularMovies(): Flow<PagingData<Movie>>
 
     suspend fun getMovieDescription(id: Int): Resource<MovieDescription>
 
