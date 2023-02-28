@@ -2,7 +2,11 @@ package com.danntrp.movies.data.repository
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Transformations
-import com.danntrp.movies.core.util.Resource
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
+import androidx.paging.PagingData
+import androidx.paging.map
+import com.danntrp.movies.data.MoviePagingSource
 import com.danntrp.movies.data.local.MovieDao
 import com.danntrp.movies.data.local.model.MovieEntity
 import com.danntrp.movies.data.remote.MovieService
@@ -11,19 +15,24 @@ import com.danntrp.movies.data.remote.model.MovieDto
 import com.danntrp.movies.domain.model.Movie
 import com.danntrp.movies.domain.model.MovieDescription
 import com.danntrp.movies.domain.repository.MovieRepository
+import com.danntrp.movies.util.Resource
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
 
 class MovieRepositoryImpl(
     private val movieService: MovieService,
     private val movieDatabase: MovieDao
 ) : MovieRepository {
 
-    override suspend fun getPopularMovies(page: Int): Resource<List<Movie>> {
-        val response = movieService.getPopularMovies(page = page)
-        return if (response.isSuccessful) {
-            Resource.Success(response.body()!!.films.map { it.toDomain() })
-        } else {
-            Resource.Error(response.message())
-        }
+    override fun getPagedPopularMovies(): Flow<PagingData<Movie>> {
+        return Pager(
+            config = PagingConfig(
+                pageSize = 1,
+                prefetchDistance = 5,
+                enablePlaceholders = false
+            ),
+            pagingSourceFactory = { MoviePagingSource(movieService) }
+        ).flow.map { pagingData -> pagingData.map { it.toDomain() } }
     }
 
     override suspend fun getMovieDescription(id: Int): Resource<MovieDescription> {

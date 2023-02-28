@@ -14,9 +14,9 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import com.bumptech.glide.Glide
 import com.danntrp.movies.R
-import com.danntrp.movies.core.util.Resource
 import com.danntrp.movies.databinding.FragmentMovieDescriptionBinding
 import com.danntrp.movies.presentation.ui.ToolbarHost
+import com.danntrp.movies.util.Resource
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

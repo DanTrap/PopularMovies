@@ -19,54 +19,54 @@
             android:id="@+id/posterImageView"
             android:layout_width="51dp"
             android:layout_height="80dp"
-            android:scaleType="fitXY"
             android:elevation="4dp"
+            android:scaleType="fitXY"
             app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/movieNameTextView"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/movieNameTextView"
             app:shapeAppearanceOverlay="@style/rounded_imageview"
-            tools:src="@drawable/ic_launcher_background"/>
+            tools:src="@drawable/ic_launcher_background" />
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/movieNameTextView"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:textSize="16sp"
-            android:textStyle="bold"
+            android:layout_marginStart="16dp"
             android:ellipsize="end"
             android:maxLines="1"
-            android:layout_marginStart="16dp"
             android:textColor="@color/black"
-            app:layout_constraintStart_toEndOf="@id/posterImageView"
-            app:layout_constraintTop_toTopOf="@id/posterImageView"
+            android:textSize="16sp"
+            android:textStyle="bold"
             app:layout_constraintBottom_toTopOf="@id/movieGenreYearTextView"
             app:layout_constraintEnd_toStartOf="@id/favoriteImageView"
-            tools:text="Изгой-один: Звёздные войны. Истории fsfsd"/>
+            app:layout_constraintStart_toEndOf="@id/posterImageView"
+            app:layout_constraintTop_toTopOf="@id/posterImageView"
+            tools:text="Изгой-один: Звёздные войны. Истории fsfsd" />
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/movieGenreYearTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textColor="#6A000000"
             android:textSize="14sp"
             android:textStyle="bold"
-            android:textColor="#6A000000"
             app:layout_constraintBottom_toBottomOf="@id/posterImageView"
             app:layout_constraintStart_toStartOf="@id/movieNameTextView"
             app:layout_constraintTop_toBottomOf="@id/movieNameTextView"
-            tools:text="Фантастика (2016)"/>
+            tools:text="Фантастика (2016)" />
 
         <ImageView
             android:id="@+id/favoriteImageView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_favorite_round"
             android:layout_marginStart="16dp"
+            android:src="@drawable/ic_favorite_round"
             android:visibility="gone"
-            app:layout_constraintTop_toTopOf="@id/movieNameTextView"
-            app:layout_constraintStart_toEndOf="@id/movieNameTextView"
             app:layout_constraintBottom_toBottomOf="@id/movieNameTextView"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/movieNameTextView"
+            app:layout_constraintTop_toTopOf="@id/movieNameTextView"
             tools:ignore="ContentDescription" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.cardview.widget.CardView>
