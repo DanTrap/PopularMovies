@@ -32,6 +32,8 @@ import com.danntrp.movies.presentation.adapters.MoviePagerAdapter
 import com.danntrp.movies.presentation.ui.MovieSearch
 import com.danntrp.movies.presentation.ui.ToolbarHost
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
@@ -86,9 +88,9 @@ class PopularMovieFragment : Fragment(R.layout.fragment_popular_movie), MenuProv
             binding.networkLayout.isVisible = it.source.refresh is LoadState.Error
         }
 
-        movieViewModel.pagedData.observe(viewLifecycleOwner) {
+        movieViewModel.filteredMovies.observe(viewLifecycleOwner) {
             lifecycleScope.launch {
-                movieAdapter.submitData(viewLifecycleOwner.lifecycle, it)
+                movieAdapter.submitData(it)
             }
         }
 
@@ -97,21 +99,19 @@ class PopularMovieFragment : Fragment(R.layout.fragment_popular_movie), MenuProv
             movieAdapter.retry()
         }
 
-        val liveData = findNavController().currentBackStackEntry?.savedStateHandle
+        val reselectedTabLiveData = findNavController().currentBackStackEntry?.savedStateHandle
             ?.getLiveData<String>(R.id.popular.toString())
 
-        liveData?.observe(viewLifecycleOwner) {
+        reselectedTabLiveData?.observe(viewLifecycleOwner) {
             if (it == null) return@observe
             binding.appBar.setExpanded(true, true)
             binding.popularMoviesRecyclerView.smoothScrollToPosition(0)
-            liveData.value = null
+            reselectedTabLiveData.value = null
         }
     }
 
     override fun searchMovieByName(query: String?) {
-        if (query != null) {
-            //TODO
-        }
+        if (query != null) movieViewModel.query.value = query
     }
 
     override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
@@ -121,8 +121,14 @@ class PopularMovieFragment : Fragment(R.layout.fragment_popular_movie), MenuProv
             setSearchableInfo(searchableInfo)
 
             setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+                var job: Job? = null
+
                 override fun onQueryTextChange(query: String?): Boolean {
-                    searchMovieByName(query)
+                    job?.cancel()
+                    job = lifecycleScope.launch {
+                        delay(500)
+                        searchMovieByName(query)
+                    }
                     return true
                 }
 
