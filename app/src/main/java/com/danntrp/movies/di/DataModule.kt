@@ -9,6 +9,7 @@ import com.danntrp.movies.data.mappers.MapperMovieDescriptionDtoToDomain
 import com.danntrp.movies.data.mappers.MapperMovieDtoToDomain
 import com.danntrp.movies.data.mappers.MapperMovieEntityToDomain
 import com.danntrp.movies.data.mappers.MapperMovieToEntity
+import com.danntrp.movies.data.network.NetworkConnectivityObserver
 import com.danntrp.movies.data.remote.AuthInterceptor
 import com.danntrp.movies.data.remote.MovieService
 import com.danntrp.movies.data.remote.model.MovieDescriptionDto
@@ -16,6 +17,7 @@ import com.danntrp.movies.data.remote.model.MovieDto
 import com.danntrp.movies.data.repository.MovieRepositoryImpl
 import com.danntrp.movies.domain.model.Movie
 import com.danntrp.movies.domain.model.MovieDescription
+import com.danntrp.movies.domain.network.ConnectivityObserver
 import com.danntrp.movies.domain.repository.MovieRepository
 import dagger.Module
 import dagger.Provides
@@ -98,5 +100,11 @@ class DataModule {
     @Singleton
     fun provideMapperMovieToEntity(): Movie.Mapper<MovieEntity> {
         return MapperMovieToEntity()
+    }
+
+    @Provides
+    @Singleton
+    fun provideConnectivityObservers(@ApplicationContext context: Context): ConnectivityObserver {
+        return NetworkConnectivityObserver(context)
     }
 }

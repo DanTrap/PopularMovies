@@ -24,4 +24,16 @@
         app:itemIconTint="@color/selector_selected_color"
         app:itemTextColor="@color/selector_selected_color"
         app:menu="@menu/bottom_menu" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/networkStatusTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:gravity="center"
+        android:textColor="@color/white"
+        android:padding="1dp"
+        tools:background="@color/bright_green"
+        tools:text="Available"
+        tools:visibility="visible"/>
 </LinearLayout>
