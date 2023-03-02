@@ -4,6 +4,8 @@
     <color name="white">#FFFFFFFF</color>
     <color name="starfleet_blue">#0094FF</color>
     <color name="calcareous_sinter">#DEEFFF</color>
+    <color name="bright_green">#32CD32</color>
+    <color name="grey">#5a5a5a</color>
 
     <color name="seed">#0094FF</color>
     <color name="md_theme_light_primary">#0060A9</color>
