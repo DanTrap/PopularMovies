@@ -18,9 +18,8 @@ class PopularMovieViewModel @Inject constructor(
 
     val query = MutableLiveData("")
 
-    val movies = popularMovieUseCase.getPagedMovie().cachedIn(viewModelScope).asLiveData()
-
     val filteredMovies = Transformations.switchMap(query) { query ->
+        val movies = popularMovieUseCase.getPagedMovie().cachedIn(viewModelScope).asLiveData()
         if (query.isNullOrBlank()) {
             movies
         } else {
