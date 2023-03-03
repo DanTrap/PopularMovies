@@ -1,4 +1,4 @@
-package com.danntrp.movies.presentation.ui.popular
+package com.danntrp.movies.ui.fragments.popular
 
 import androidx.lifecycle.*
 import androidx.paging.cachedIn

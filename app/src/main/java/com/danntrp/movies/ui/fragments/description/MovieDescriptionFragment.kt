@@ -1,4 +1,4 @@
-package com.danntrp.movies.presentation.ui.description
+package com.danntrp.movies.ui.fragments.description
 
 import android.content.Context
 import android.os.Bundle
@@ -15,7 +15,7 @@ import androidx.lifecycle.Lifecycle
 import com.bumptech.glide.Glide
 import com.danntrp.movies.R
 import com.danntrp.movies.databinding.FragmentMovieDescriptionBinding
-import com.danntrp.movies.presentation.ui.ToolbarHost
+import com.danntrp.movies.ui.activity.ToolbarHost
 import com.danntrp.movies.util.Resource
 import dagger.hilt.android.AndroidEntryPoint
 

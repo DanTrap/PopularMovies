@@ -1,4 +1,4 @@
-package com.danntrp.movies.presentation.adapters
+package com.danntrp.movies.ui.adapters
 
 import android.util.Log
 import android.view.LayoutInflater

@@ -1,4 +1,4 @@
-package com.danntrp.movies.presentation.ui.description
+package com.danntrp.movies.ui.fragments.description
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

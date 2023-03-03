@@ -1,4 +1,4 @@
-package com.danntrp.movies.presentation.ui.popular
+package com.danntrp.movies.ui.fragments.popular
 
 import android.app.Activity
 import android.app.SearchManager
@@ -26,11 +26,11 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.danntrp.movies.R
 import com.danntrp.movies.databinding.FragmentPopularMovieBinding
-import com.danntrp.movies.presentation.adapters.LoadingStateAdapter
-import com.danntrp.movies.presentation.adapters.MarginItemDecorator
-import com.danntrp.movies.presentation.adapters.MoviePagerAdapter
-import com.danntrp.movies.presentation.ui.MovieSearch
-import com.danntrp.movies.presentation.ui.ToolbarHost
+import com.danntrp.movies.ui.adapters.LoadingStateAdapter
+import com.danntrp.movies.ui.adapters.MarginItemDecorator
+import com.danntrp.movies.ui.adapters.MoviePagerAdapter
+import com.danntrp.movies.ui.fragments.MovieSearch
+import com.danntrp.movies.ui.activity.ToolbarHost
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay

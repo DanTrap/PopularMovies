@@ -6,7 +6,7 @@
     app:startDestination="@id/popularMovieFragment">
     <fragment
         android:id="@+id/popularMovieFragment"
-        android:name="com.danntrp.movies.presentation.ui.popular.PopularMovieFragment"
+        android:name="com.danntrp.movies.ui.fragments.popular.PopularMovieFragment"
         android:label="@string/popular"
         tools:layout="@layout/fragment_popular_movie">
         <action
@@ -15,6 +15,6 @@
     </fragment>
     <fragment
         android:id="@+id/movieDescriptionFragment"
-        android:name="com.danntrp.movies.presentation.ui.description.MovieDescriptionFragment"
+        android:name="com.danntrp.movies.ui.fragments.description.MovieDescriptionFragment"
         tools:layout="@layout/fragment_movie_description" />
 </navigation>

@@ -16,7 +16,7 @@
         android:theme="@style/Theme.Movies"
         tools:targetApi="31">
         <activity
-            android:name=".presentation.ui.MainActivity"
+            android:name=".ui.activity.MainActivity"
             android:windowSoftInputMode="stateAlwaysHidden|adjustPan"
             android:launchMode="singleTop"
             android:theme="@style/Theme.Movies.NoActionBar"

@@ -1,4 +1,4 @@
-package com.danntrp.movies.presentation.ui.favorite
+package com.danntrp.movies.ui.fragments.favorite
 
 import android.app.Activity
 import android.app.SearchManager
@@ -20,10 +20,10 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.danntrp.movies.R
 import com.danntrp.movies.databinding.FragmentFavoriteMovieBinding
-import com.danntrp.movies.presentation.adapters.MarginItemDecorator
-import com.danntrp.movies.presentation.adapters.MovieAdapter
-import com.danntrp.movies.presentation.ui.MovieSearch
-import com.danntrp.movies.presentation.ui.ToolbarHost
+import com.danntrp.movies.ui.adapters.MarginItemDecorator
+import com.danntrp.movies.ui.adapters.MovieRecyclerAdapter
+import com.danntrp.movies.ui.fragments.MovieSearch
+import com.danntrp.movies.ui.activity.ToolbarHost
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -31,7 +31,7 @@ class FavoriteMovieFragment : Fragment(R.layout.fragment_favorite_movie), MenuPr
     MovieSearch {
 
     private lateinit var binding: FragmentFavoriteMovieBinding
-    private lateinit var movieAdapter: MovieAdapter
+    private lateinit var movieAdapter: MovieRecyclerAdapter
     private lateinit var searchableInfo: SearchableInfo
     private lateinit var menuHost: MenuHost
     private lateinit var toolbarHost: ToolbarHost
@@ -53,7 +53,7 @@ class FavoriteMovieFragment : Fragment(R.layout.fragment_favorite_movie), MenuPr
 
         toolbarHost.setToolbar(binding.toolBar)
 
-        movieAdapter = MovieAdapter().apply {
+        movieAdapter = MovieRecyclerAdapter().apply {
             stateRestorationPolicy = RecyclerView.Adapter.StateRestorationPolicy.PREVENT_WHEN_EMPTY
         }
 
