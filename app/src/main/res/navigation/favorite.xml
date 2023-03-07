@@ -6,7 +6,7 @@
     app:startDestination="@id/favoriteMovieFragment">
     <fragment
         android:id="@+id/favoriteMovieFragment"
-        android:name="com.danntrp.movies.presentation.ui.favorite.FavoriteMovieFragment"
+        android:name="com.danntrp.movies.ui.fragments.favorite.FavoriteMovieFragment"
         android:label="@string/favorites"
         tools:layout="@layout/fragment_favorite_movie" />
 </navigation>

@@ -1,4 +1,4 @@
-package com.danntrp.movies.presentation.adapters
+package com.danntrp.movies.ui.adapters
 
 import android.view.LayoutInflater
 import android.view.View
@@ -11,7 +11,7 @@ import com.danntrp.movies.R
 import com.danntrp.movies.databinding.MovieItemBinding
 import com.danntrp.movies.domain.model.Movie
 
-class MovieAdapter : RecyclerView.Adapter<MovieAdapter.MovieViewHolder>() {
+class MovieRecyclerAdapter : RecyclerView.Adapter<MovieRecyclerAdapter.MovieViewHolder>() {
 
     inner class MovieViewHolder(private val itemBinding: MovieItemBinding) :
         RecyclerView.ViewHolder(itemBinding.root) {

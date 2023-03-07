@@ -1,4 +1,4 @@
-package com.danntrp.movies.presentation.ui.favorite
+package com.danntrp.movies.ui.fragments.favorite
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope

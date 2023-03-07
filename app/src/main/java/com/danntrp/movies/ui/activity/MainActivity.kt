@@ -1,4 +1,4 @@
-package com.danntrp.movies.presentation.ui
+package com.danntrp.movies.ui.activity
 
 import android.animation.Animator
 import android.animation.AnimatorListenerAdapter

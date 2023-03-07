@@ -1,4 +1,4 @@
-package com.danntrp.movies.presentation.ui
+package com.danntrp.movies.ui.activity
 
 import androidx.appcompat.widget.Toolbar
 
