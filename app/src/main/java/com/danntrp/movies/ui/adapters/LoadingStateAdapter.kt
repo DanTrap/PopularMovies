@@ -1,22 +1,19 @@
 package com.danntrp.movies.ui.adapters
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.core.view.isVisible
 import androidx.paging.LoadState
 import androidx.paging.LoadStateAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.danntrp.movies.databinding.LoadStateBinding
 
-class LoadingStateAdapter(private val retry: () -> Unit) :
+class LoadingStateAdapter :
     LoadStateAdapter<LoadingStateAdapter.StateViewHolder>() {
 
     override fun onBindViewHolder(
         holder: StateViewHolder,
         loadState: LoadState
     ) {
-        holder.bind(loadState)
     }
 
     override fun onCreateViewHolder(
@@ -26,17 +23,10 @@ class LoadingStateAdapter(private val retry: () -> Unit) :
         return StateViewHolder(
             LoadStateBinding.inflate(
                 LayoutInflater.from(parent.context), parent, false
-            ),
-            retry
+            )
         )
     }
 
-    class StateViewHolder(private val binding: LoadStateBinding, private val retry: () -> Unit) :
-        RecyclerView.ViewHolder(binding.root) {
-        fun bind(loadState: LoadState) {
-            Log.d("ABOBA", "Bind: $loadState")
-            binding.contentProgressBar.isVisible =
-                loadState is LoadState.Loading || loadState is LoadState.Error
-        }
-    }
+    class StateViewHolder(binding: LoadStateBinding) :
+        RecyclerView.ViewHolder(binding.root)
 }

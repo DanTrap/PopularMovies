@@ -29,11 +29,11 @@
         android:id="@+id/networkStatusTextView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:visibility="gone"
         android:gravity="center"
-        android:textColor="@color/white"
         android:padding="1dp"
+        android:textColor="@color/white"
+        android:visibility="gone"
         tools:background="@color/bright_green"
         tools:text="Available"
-        tools:visibility="visible"/>
+        tools:visibility="visible" />
 </LinearLayout>

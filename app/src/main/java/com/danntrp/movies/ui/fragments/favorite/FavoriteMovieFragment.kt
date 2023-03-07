@@ -107,5 +107,4 @@ class FavoriteMovieFragment : Fragment(R.layout.fragment_favorite_movie), MenuPr
     }
 
     override fun onMenuItemSelected(menuItem: MenuItem) = true
-
 }

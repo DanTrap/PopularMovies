@@ -5,7 +5,6 @@ import android.app.SearchManager
 import android.app.SearchableInfo
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
@@ -14,7 +13,6 @@ import androidx.appcompat.widget.SearchView
 import androidx.core.os.bundleOf
 import androidx.core.view.MenuHost
 import androidx.core.view.MenuProvider
-import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
@@ -26,11 +24,13 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.danntrp.movies.R
 import com.danntrp.movies.databinding.FragmentPopularMovieBinding
+import com.danntrp.movies.domain.network.ConnectivityObserver
+import com.danntrp.movies.ui.activity.ToolbarHost
 import com.danntrp.movies.ui.adapters.LoadingStateAdapter
 import com.danntrp.movies.ui.adapters.MarginItemDecorator
 import com.danntrp.movies.ui.adapters.MoviePagerAdapter
 import com.danntrp.movies.ui.fragments.MovieSearch
-import com.danntrp.movies.ui.activity.ToolbarHost
+import com.danntrp.movies.ui.fragments.description.MovieDescriptionFragment
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
@@ -66,7 +66,7 @@ class PopularMovieFragment : Fragment(R.layout.fragment_popular_movie), MenuProv
             onItemClick = { id ->
                 findNavController().navigate(
                     R.id.action_popularMovieFragment_to_movieDescriptionFragment,
-                    bundleOf("movie-id" to id)
+                    bundleOf(MovieDescriptionFragment.MOVIE_ID_KEY to id)
                 )
             },
             onItemLongClick = { movie ->
@@ -77,15 +77,9 @@ class PopularMovieFragment : Fragment(R.layout.fragment_popular_movie), MenuProv
         }
 
         binding.popularMoviesRecyclerView.apply {
-            adapter = movieAdapter.withLoadStateFooter(LoadingStateAdapter { movieAdapter.retry() })
+            adapter = movieAdapter.withLoadStateFooter(LoadingStateAdapter())
             layoutManager = LinearLayoutManager(context)
             addItemDecoration(MarginItemDecorator(resources.getDimensionPixelSize(R.dimen.recycler_view_items_margin)))
-        }
-
-        movieAdapter.loadStateFlow.asLiveData().observe(viewLifecycleOwner) {
-            Log.d("ABOBA", "combined ${it.source}")
-            binding.progressBar.isVisible = it.source.refresh is LoadState.Error
-            binding.networkLayout.isVisible = it.source.refresh is LoadState.Error
         }
 
         movieViewModel.filteredMovies.observe(viewLifecycleOwner) {
@@ -94,9 +88,23 @@ class PopularMovieFragment : Fragment(R.layout.fragment_popular_movie), MenuProv
             }
         }
 
-        binding.repeatButton.setOnClickListener {
-            binding.progressBarRepeat.visibility = View.VISIBLE
-            movieAdapter.retry()
+        movieAdapter.loadStateFlow.asLiveData().observe(viewLifecycleOwner) {
+            when {
+                it.refresh is LoadState.Error -> {
+                    binding.networkLayout.visibility = View.VISIBLE
+                }
+                it.refresh is LoadState.NotLoading && it.append is LoadState.NotLoading -> {
+                    binding.networkLayout.visibility = View.GONE
+                }
+            }
+        }
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            movieViewModel.getNetworkStatusStream.collect {
+                if (it == ConnectivityObserver.NetworkStatus.AVAILABLE) {
+                    movieAdapter.retry()
+                }
+            }
         }
 
         val reselectedTabLiveData = findNavController().currentBackStackEntry?.savedStateHandle
@@ -111,7 +119,7 @@ class PopularMovieFragment : Fragment(R.layout.fragment_popular_movie), MenuProv
     }
 
     override fun searchMovieByName(query: String?) {
-        if (query != null) movieViewModel.query.value = query
+        if (query != null) movieViewModel.setQuery(query)
     }
 
     override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {

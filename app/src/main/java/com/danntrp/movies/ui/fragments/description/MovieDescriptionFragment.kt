@@ -2,7 +2,6 @@ package com.danntrp.movies.ui.fragments.description
 
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
@@ -41,15 +40,14 @@ class MovieDescriptionFragment : Fragment(R.layout.fragment_movie_description), 
 
         toolbarHost.setToolbar(binding.toolBar)
 
-        descriptionViewModel.getMovieDescription(arguments?.getInt("movie-id") ?: 0)
-
         descriptionViewModel.movieDescription.observe(viewLifecycleOwner) { response ->
             when (response) {
                 is Resource.Success -> {
-                    Log.d("ABOBA", "DESC FRAGMENT SUCCESS")
-                    binding.progressBar.visibility = View.GONE
                     response.data?.let { movie ->
                         binding.apply {
+                            networkLayout.visibility = View.GONE
+                            progressBar.visibility = View.GONE
+                            appBar.setExpanded(true)
                             Glide.with(binding.root).load(movie.posterUrl).into(posterImageView)
                             collapsing.title = movie.name
                             descriptionTextView.text = movie.description
@@ -65,23 +63,31 @@ class MovieDescriptionFragment : Fragment(R.layout.fragment_movie_description), 
                     }
                 }
                 is Resource.Error -> {
-                    binding.progressBar.visibility = View.GONE
-                    binding.networkLayout.visibility = View.VISIBLE
-                    response.message?.let {
-                        Log.e("ABOBA", it)
+                    binding.apply {
+                        collapsing.title = ""
+                        appBar.setExpanded(false)
+                        progressBar.visibility = View.GONE
+                        networkLayout.visibility = View.VISIBLE
                     }
                 }
                 is Resource.Loading -> {
-                    binding.progressBar.visibility = View.VISIBLE
-                    binding.networkLayout.visibility = View.GONE
-                    Log.d("ABOBA", "LOADING")
+                    binding.apply {
+                        progressBar.visibility = View.VISIBLE
+                        networkLayout.visibility = View.GONE
+                    }
                 }
             }
         }
 
-        binding.repeatButton.setOnClickListener {
+        movieDescription()
 
+        binding.repeatButton.setOnClickListener {
+            movieDescription()
         }
+    }
+
+    private fun movieDescription() {
+        descriptionViewModel.getMovieDescription(arguments?.getInt(MOVIE_ID_KEY) ?: 0)
     }
 
     override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
@@ -90,4 +96,8 @@ class MovieDescriptionFragment : Fragment(R.layout.fragment_movie_description), 
     }
 
     override fun onMenuItemSelected(menuItem: MenuItem) = false
+
+    companion object {
+        const val MOVIE_ID_KEY = "movie-id"
+    }
 }
